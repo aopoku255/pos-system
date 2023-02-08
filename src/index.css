@@ -1,13 +1,171 @@
-body {
+/* IMPORTS */
+@font-face {
+  font-family: Poppins;
+  src: url(./assets/fonts/Poppins-Regular.ttf);
+}
+@font-face {
+  font-family: PoppinsBold;
+  src: url(./assets/fonts/Poppins-Bold.ttf);
+}
+@font-face {
+  font-family: PoppinsThin;
+  src: url(./assets/fonts/Poppins-Light.ttf);
+}
+*{
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Poppins;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+  font-family: Poppins;
+}
+
+:root{
+
+}
+
+/* LOGIN */
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  background-image: url(./assets/png/bg.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.login{
+  width: 25rem;
+}
+.submit_btn{
+  background-color: #172B4D;
+  border: none;
+  padding: 0.5rem 0;
+  color: #fff;
+  border-radius: 4px;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  height: 100vh;
+  width: 20%;
+  background-color: #fff;
+  /* font-family: PoppinsBold; */
+  position: relative;
+}
+
+.main{
+  width: 80%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  height: 100vh;
+}
+
+.list_active:hover{
+  background-color: #f6f9fc;
+  color: #000;
+
+}
+.list_active:active{
+  background-color: #f6f9fc;
+  color: #000;
+}
+
+.develop{
+  position: absolute;
+  bottom: 1rem;
+  text-align: center;
+  right: 0;
+  left: 0;
+}
+
+.page_header{
+  font-family: PoppinsBold;
+  font-size: 2rem;
+  color: #fff;
+}
+
+.profile_img{
+  width: 3rem;
+  height: 3rem;
+  background-color: #172B4D;
+  cursor: pointer;
+  margin-right: 2rem;
+}
+
+.page_profile{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cards_grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.mycard{
+  width: 15rem;
+  height: 10rem;
+  /* background-color: bisque; */
+}
+
+.card_heading{
+  font-size: 1rem;
+}
+
+.line_height{
+  line-height: 1.5em;
+}
+
+.card_number{
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #32325d;
+}
+
+.text-thin{
+  font-family: PoppinsThin;
+  font-weight: 100;
+}
+
+.card_icon {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(87deg,#f5365c,#f56036)!important
+}
+
+.card_icon2{
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(87deg,#fb6340,#fbb140)!important;
+}
+.card_icon3{
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(87deg,#2dce89,#2dcecc)!important
+}
+.card_icon4{
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(87deg,#5e72e4,#825ee4)!important;
+}
+
+.card_container{
+  background: url(./assets/png/bg1.svg);
+  min-height: 25rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
