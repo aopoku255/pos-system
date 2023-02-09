@@ -24,6 +24,7 @@ html{
 
 body{
   font-family: Poppins;
+  background-color: #fff;
 }
 
 :root{
@@ -38,7 +39,7 @@ body{
   align-items: center;
   height: 100vh;
   flex-direction: column;
-  background-image: url(./assets/png/bg.svg);
+  /* background-image: url(./assets/png/bg.svg); */
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -63,6 +64,7 @@ body{
   background-color: #fff;
   /* font-family: PoppinsBold; */
   position: relative;
+
 }
 
 .main{
@@ -93,7 +95,7 @@ body{
 .page_header{
   font-family: PoppinsBold;
   font-size: 2rem;
-  color: #fff;
+  color: #525f7f;
 }
 
 .profile_img{
@@ -103,16 +105,41 @@ body{
   cursor: pointer;
   margin-right: 2rem;
 }
+.staff_img{
+  width: 3rem;
+  height: 3rem;
+  background-color: #172B4D;
+}
+
+.staff_name{
+  font-weight: 900;
+  color: #525f7f;
+}
 
 .page_profile{
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
+}
+
+.profile_container{
+  position: relative;
+}
+.profile_menu{
+  position: absolute;
+  z-index: 99;
+  right: 0.5rem;
+  top: 3rem;
 }
 
 .cards_grid{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+}
+.invoice_grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
 }
 
 .mycard{
@@ -132,7 +159,7 @@ body{
 .card_number{
   font-size: 1.5rem;
   font-weight: 800;
-  color: #32325d;
+  color: #fff;
 }
 
 .text-thin{
@@ -143,29 +170,87 @@ body{
 .card_icon {
   width: 3rem;
   height: 3rem;
-  background: linear-gradient(87deg,#f5365c,#f56036)!important
+  background: #fff
+  /* background: linear-gradient(87deg,#f5365c,#f56036)!important */
 }
 
 .card_icon2{
   width: 3rem;
   height: 3rem;
-  background: linear-gradient(87deg,#fb6340,#fbb140)!important;
+  background: #fff;
+  /* background: linear-gradient(87deg,#fb6340,#fbb140)!important; */
 }
 .card_icon3{
   width: 3rem;
   height: 3rem;
-  background: linear-gradient(87deg,#2dce89,#2dcecc)!important
+  background: #fff
+  /* background: linear-gradient(87deg,#2dce89,#2dcecc)!important */
 }
 .card_icon4{
   width: 3rem;
   height: 3rem;
+  background: #fff
+  /* background: linear-gradient(87deg,#5e72e4,#825ee4)!important; */
+}
+
+.bgcolor_1{
   background: linear-gradient(87deg,#5e72e4,#825ee4)!important;
+}
+.bgcolor_2{
+  background: linear-gradient(87deg,#2dce89,#2dcecc)!important
+}
+.bgcolor_3{
+  background: linear-gradient(87deg,#fb6340,#fbb140)!important;
+}
+.bgcolor_4{
+  background: linear-gradient(87deg,#f5365c,#f56036)!important
 }
 
 .card_container{
-  background: url(./assets/png/bg1.svg);
-  min-height: 25rem;
+  /* background: url(./assets/png/bg1.svg); */
+  min-height: 20rem;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+.edit, .delete{
+  cursor: pointer;
+  color: #adb5bd;
+  margin: 0 5px;
+}
+
+.edit:focus{
+  outline: none;
+  border: none;
+}
+.delete:focus{
+  outline: none;
+  border: none;
+}
+
+.delete:hover{
+  color: red;
+}
+
+.drug-photo {
+  height: 9rem;
+  width: 9rem;
+  border: 2px dashed #525f7f;
+  border-radius: 5px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  position: relative;
+
+}
+
+.drug_file{
+  position: absolute;
+  display: block;
+  opacity: 0;
+  width: 100%;
+  margin: auto;
+  height: 100%;
+  cursor: pointer;
 }

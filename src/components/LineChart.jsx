@@ -1,99 +1,98 @@
-import React, { Component } from "react";
-// import "../assets/styles/dashboard.css";
+import React, { PureComponent } from "react";
 import {
-  AreaChart,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Area,
-  ReferenceLine,
+  Legend,
   ResponsiveContainer,
+  ReferenceLine,
 } from "recharts";
 
-import data from "../static/data.js";
+const data = [
+  {
+    name: "Jan",
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: "Feb",
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: "Mar",
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: "Apr",
+    uv: 2780,
+    pv: 3908,
+    amt: 2000,
+  },
+  {
+    name: "May",
+    uv: 1890,
+    pv: 4800,
+    amt: 2181,
+  },
+  {
+    name: "Jun",
+    uv: 2390,
+    pv: 3800,
+    amt: 2500,
+  },
+  {
+    name: "Jul",
+    uv: 3490,
+    pv: 4300,
+    amt: 2100,
+  },
+];
 
-class LineChart extends Component {
-  state = {};
+export default class Example extends PureComponent {
+  static demoUrl = "https://codesandbox.io/s/simple-line-chart-kec3v";
+
   render() {
     return (
-      <div className="mt-3 card chat border-0" style={{ borderRadius: "10px" }}>
-        <div className="d-flex justify-content-between mx-2 my-3">
-          <h6 className="text-deep">Sales graph</h6>
-          <div className="d-flex">
-            <div className="d-flex justify-content-center align-items-center">
-              <span className="rounded-circle legend-left"></span>
-              <span className="gray-text small mx-2">This week</span>
-            </div>
-            <div className="d-flex justify-content-center align-items-center mx-2">
-              <span className="rounded-circle legend-right"></span>
-              <span className="gray-text small mx-2">Last week</span>
-            </div>
-          </div>
-        </div>
-        <ResponsiveContainer>
-          <AreaChart
-            width={730}
-            height={250}
-            data={data}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          >
-            <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#FB7D5B" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#FB7D5B" stopOpacity={0} />
-              </linearGradient>
-              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#FCC43E" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#FCC43E" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <XAxis dataKey="month" tickLine={false} axisLine={false} />
-            <YAxis tickLine={false} axisLine={false} />
-            <CartesianGrid stroke="#c1bbeb" horizontal={false} />
-            <Tooltip
-              contentStyle={{
-                borderRadius: "10px",
-                color: "#303972",
-              }}
-            />
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+          <XAxis dataKey="name" tickLine={false} axisLine={false} height={50} />
+          <YAxis tickLine={false} axisLine={false} />
+          <Tooltip cursor={false} />
 
-            <ReferenceLine
-              x="Sep"
-              stroke="#000"
-              strokeDasharray="3 3"
-              height={0}
-            />
-
-            <Area
-              type="monotone"
-              dataKey="thisweek"
-              stroke="#FB7D5B"
-              strokeWidth={3}
-              fillOpacity={10}
-              fill="url(#colorUv)"
-              name="last week"
-              animationBegin={1500}
-              animationDuration={2500}
-              animationEasing="ease-in"
-            />
-            <Area
-              type="monotone"
-              dataKey="lastweek"
-              stroke="#FCC42E"
-              strokeWidth={3}
-              fillOpacity={10}
-              fill="url(#colorPv)"
-              name="this week"
-              animationBegin={1000}
-              animationDuration={2000}
-              animationEasing="ease-in"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+          <Line
+            type="monotone"
+            dataKey="pv"
+            stroke="#8884d8"
+            activeDot={{ r: 8 }}
+            strokeWidth={4}
+            animationBegin={1000}
+            animationDuration={2000}
+            animationEasing="ease-in"
+            name="SALES"
+            textDecoration="red"
+          />
+          {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
+        </LineChart>
+      </ResponsiveContainer>
     );
   }
 }
-
-export default LineChart;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Button,
+  Col,
   FormGroup,
   Input,
   Label,
@@ -8,6 +9,7 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Row,
   Table,
   Tooltip,
   UncontrolledTooltip,
@@ -18,7 +20,7 @@ import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { FcAddRow } from "react-icons/fc";
 
-const Products = () => {
+const Customers = () => {
   const [isOpen, setIsOpen] = useState(false);
   // Add Table
   const handleAddTable = () => {
@@ -39,7 +41,7 @@ const Products = () => {
       <div className="d-flex">
         <Sidebar />
         <main className="main">
-          <Header name="PRODUCTS" />
+          <Header name="CUSTOMERS" />
           <div className="table-responsive mt-3 mb-5 shadow mx-3 rounded">
             <div className="d-flex justify-content-between align-items-center py-3 px-3">
               <div></div>
@@ -47,29 +49,32 @@ const Products = () => {
                 className="btn btn-primary border-0  shadow text-uppercase"
                 onClick={handleAddTable}
               >
-                Add Products
+                Add Customer
               </button>
             </div>
-            <Table bgcolor="white" border>
-              <thead className="bg-light text-secondary text-center text-uppercase small">
+            <Table border>
+              <thead className="bg-light text-secondary  text-uppercase small ">
                 <tr>
-                  <th>#</th>
+                  <th></th>
                   <th>Name</th>
-                  <th>Image</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Date Added</th>
+                  <th>Email</th>
+                  <th>Tel</th>
+                  <th>Address</th>
+                  <th>Craeted At</th>
                   <th></th>
                 </tr>
               </thead>
-              <tbody className="text-center">
+              <tbody className="">
                 <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
+                  <td></td>
+                  <td className="py-4">
+                    <h6 className="mx-2 staff_name">John Doe</h6>
+                  </td>
+
+                  <td className="py-4 text-secondary">aopoku255@gmail.com</td>
+                  <td className="py-4 text-secondary">0545098438</td>
+                  <td className="py-4 text-secondary">PLT 16 BLK III</td>
+                  <td className="py-4 text-secondary">09/02/2023</td>
                   <td className="py-4">
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
@@ -84,12 +89,15 @@ const Products = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-4">2</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
+                  <td></td>
+                  <td className="py-4">
+                    <h6 className="mx-2 staff_name">John Doe</h6>
+                  </td>
+
+                  <td className="py-4 text-secondary">aopoku255@gmail.com</td>
+                  <td className="py-4 text-secondary">0545098438</td>
+                  <td className="py-4 text-secondary">PLT 16 BLK III</td>
+                  <td className="py-4 text-secondary">09/02/2023</td>
                   <td className="py-4">
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
@@ -104,12 +112,15 @@ const Products = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-4">3</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
+                  <td></td>
+                  <td className="py-4">
+                    <h6 className="mx-2 staff_name">John Doe</h6>
+                  </td>
+
+                  <td className="py-4 text-secondary">aopoku255@gmail.com</td>
+                  <td className="py-4 text-secondary">0545098438</td>
+                  <td className="py-4 text-secondary">PLT 16 BLK III</td>
+                  <td className="py-4 text-secondary">09/02/2023</td>
                   <td className="py-4">
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
@@ -124,12 +135,15 @@ const Products = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-4">4</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
+                  <td></td>
+                  <td className="py-4">
+                    <h6 className="mx-2 staff_name">John Doe</h6>
+                  </td>
+
+                  <td className="py-4 text-secondary">aopoku255@gmail.com</td>
+                  <td className="py-4 text-secondary">0545098438</td>
+                  <td className="py-4 text-secondary">PLT 16 BLK III</td>
+                  <td className="py-4 text-secondary">09/02/2023</td>
                   <td className="py-4">
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
@@ -144,12 +158,15 @@ const Products = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-4">5</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
+                  <td></td>
+                  <td className="py-4">
+                    <h6 className="mx-2 staff_name">John Doe</h6>
+                  </td>
+
+                  <td className="py-4 text-secondary">aopoku255@gmail.com</td>
+                  <td className="py-4 text-secondary">0545098438</td>
+                  <td className="py-4 text-secondary">PLT 16 BLK III</td>
+                  <td className="py-4 text-secondary">09/02/2023</td>
                   <td className="py-4">
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
@@ -168,31 +185,35 @@ const Products = () => {
             <Modal isOpen={isOpen}>
               <ModalHeader
                 toggle={() => setIsOpen(false)}
-                className="small text-secondary"
+                className="text-secondary"
               >
-                Add Product Information
+                Add new customer
               </ModalHeader>
               <ModalBody>
                 <form action="">
                   <FormGroup>
-                    <Label>Product Name</Label>
-                    <Input type="text" />
+                    <Label>Customer name</Label>
+                    <Input type="text"></Input>
                   </FormGroup>
                   <FormGroup>
-                    <Label>Purchased Price</Label>
-                    <Input type="text" />
+                    <Label>Email</Label>
+                    <Input type="text"></Input>
                   </FormGroup>
                   <FormGroup>
-                    <Label>Selling Price</Label>
-                    <Input type="text" />
+                    <Label>Phone</Label>
+                    <Input type="text"></Input>
                   </FormGroup>
                   <FormGroup>
-                    <Label>Quantity</Label>
-                    <Input type="number" width={20} />
+                    <Label>Address</Label>
+                    <Input type="text"></Input>
                   </FormGroup>
                   <FormGroup>
-                    <Label>Product Image</Label>
-                    <Input type="file" accept="image/*" />
+                    <Label>Region</Label>
+                    <Input type="text"></Input>
+                  </FormGroup>
+                  <FormGroup>
+                    <Label>City</Label>
+                    <Input type="text"></Input>
                   </FormGroup>
                 </form>
               </ModalBody>
@@ -207,4 +228,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Customers;

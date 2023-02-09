@@ -18,7 +18,7 @@ import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { FcAddRow } from "react-icons/fc";
 
-const Products = () => {
+const Inventory = () => {
   const [isOpen, setIsOpen] = useState(false);
   // Add Table
   const handleAddTable = () => {
@@ -39,16 +39,16 @@ const Products = () => {
       <div className="d-flex">
         <Sidebar />
         <main className="main">
-          <Header name="PRODUCTS" />
+          <Header name="INVENTORY" />
           <div className="table-responsive mt-3 mb-5 shadow mx-3 rounded">
             <div className="d-flex justify-content-between align-items-center py-3 px-3">
               <div></div>
-              <button
+              {/* <button
                 className="btn btn-primary border-0  shadow text-uppercase"
                 onClick={handleAddTable}
               >
                 Add Products
-              </button>
+              </button> */}
             </div>
             <Table bgcolor="white" border>
               <thead className="bg-light text-secondary text-center text-uppercase small">
@@ -72,7 +72,11 @@ const Products = () => {
                   <td className="py-4">09/02/2023</td>
                   <td className="py-4">
                     <div className="d-flex">
-                      <FiEdit className="edit" id="edit" />
+                      <FiEdit
+                        className="edit"
+                        id="edit"
+                        onClick={handleAddTable}
+                      />
                       <UncontrolledTooltip target="edit">
                         Edit product
                       </UncontrolledTooltip>
@@ -92,7 +96,11 @@ const Products = () => {
                   <td className="py-4">09/02/2023</td>
                   <td className="py-4">
                     <div className="d-flex">
-                      <FiEdit className="edit" id="edit" />
+                      <FiEdit
+                        className="edit"
+                        id="edit"
+                        onClick={handleAddTable}
+                      />
                       <UncontrolledTooltip target="edit">
                         Edit product
                       </UncontrolledTooltip>
@@ -112,7 +120,11 @@ const Products = () => {
                   <td className="py-4">09/02/2023</td>
                   <td className="py-4">
                     <div className="d-flex">
-                      <FiEdit className="edit" id="edit" />
+                      <FiEdit
+                        className="edit"
+                        id="edit"
+                        onClick={handleAddTable}
+                      />
                       <UncontrolledTooltip target="edit">
                         Edit product
                       </UncontrolledTooltip>
@@ -132,7 +144,11 @@ const Products = () => {
                   <td className="py-4">09/02/2023</td>
                   <td className="py-4">
                     <div className="d-flex">
-                      <FiEdit className="edit" id="edit" />
+                      <FiEdit
+                        className="edit"
+                        id="edit"
+                        onClick={handleAddTable}
+                      />
                       <UncontrolledTooltip target="edit">
                         Edit product
                       </UncontrolledTooltip>
@@ -152,7 +168,11 @@ const Products = () => {
                   <td className="py-4">09/02/2023</td>
                   <td className="py-4">
                     <div className="d-flex">
-                      <FiEdit className="edit" id="edit" />
+                      <FiEdit
+                        className="edit"
+                        id="edit"
+                        onClick={handleAddTable}
+                      />
                       <UncontrolledTooltip target="edit">
                         Edit product
                       </UncontrolledTooltip>
@@ -165,7 +185,7 @@ const Products = () => {
                 </tr>
               </tbody>
             </Table>
-            <Modal isOpen={isOpen}>
+            <Modal isOpen={isOpen} centered>
               <ModalHeader
                 toggle={() => setIsOpen(false)}
                 className="small text-secondary"
@@ -175,29 +195,13 @@ const Products = () => {
               <ModalBody>
                 <form action="">
                   <FormGroup>
-                    <Label>Product Name</Label>
-                    <Input type="text" />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>Purchased Price</Label>
-                    <Input type="text" />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>Selling Price</Label>
-                    <Input type="text" />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>Quantity</Label>
-                    <Input type="number" width={20} />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>Product Image</Label>
-                    <Input type="file" accept="image/*" />
+                    <Label>Edit item quantity</Label>
+                    <Input type="number" />
                   </FormGroup>
                 </form>
               </ModalBody>
               <ModalFooter>
-                <Button color="success">Save</Button>{" "}
+                <Button color="success">Done</Button>{" "}
               </ModalFooter>
             </Modal>
           </div>
@@ -207,4 +211,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Inventory;

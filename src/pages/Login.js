@@ -87,31 +87,6 @@ const Login = () => {
               )}
             </div>
 
-            <div className="row justify-content-center mt-3 ">
-              <div className="col-6 col-md-8">
-                <div className="form-check ">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="rememberme"
-                  />
-                  <label
-                    className="form-check-label text-secondary "
-                    for="rememberme"
-                  >
-                    Remember Me
-                  </label>
-                </div>
-              </div>
-
-              <div className="col-6 col-md-4 text-center">
-                <Link to="" className="text-nowrap text-decoration-none">
-                  Forgot Password
-                </Link>
-              </div>
-            </div>
-
             <button type="submit" className="submit_btn w-100 mt-4">
               Sign in
             </button>
@@ -125,6 +100,27 @@ const Login = () => {
               </Link>
             </p>
           </div>
+        </div>
+      </div>
+      <div className="d-flex justify-content-between align-items-center mt-3 login">
+        <div className="">
+          <div className="form-check ">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value=""
+              id="rememberme"
+            />
+            <label className="form-check-label text-white " for="rememberme">
+              Remember Me
+            </label>
+          </div>
+        </div>
+
+        <div className="">
+          <Link to="" className="text-nowrap text-decoration-none text-white">
+            Forgot Password
+          </Link>
         </div>
       </div>
     </div>
