@@ -188,7 +188,7 @@ const Products = () => {
                   </FormGroup>
                   <FormGroup>
                     <Label>Quantity</Label>
-                    <Input type="number" width={20} />
+                    <Input type="number" width={20} min={1} />
                   </FormGroup>
                   <FormGroup>
                     <Label>Product Image</Label>

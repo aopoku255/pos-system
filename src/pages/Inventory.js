@@ -190,13 +190,13 @@ const Inventory = () => {
                 toggle={() => setIsOpen(false)}
                 className="small text-secondary"
               >
-                Add Product Information
+                Edit product quantity
               </ModalHeader>
               <ModalBody>
                 <form action="">
                   <FormGroup>
                     <Label>Edit item quantity</Label>
-                    <Input type="number" />
+                    <Input type="number" min={1} />
                   </FormGroup>
                 </form>
               </ModalBody>

@@ -74,8 +74,20 @@ export default class Example extends PureComponent {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
-          <XAxis dataKey="name" tickLine={false} axisLine={false} height={50} />
-          <YAxis tickLine={false} axisLine={false} />
+          <XAxis
+            dataKey="name"
+            tickLine={false}
+            axisLine={false}
+            height={50}
+            fontSize={14}
+            stroke="#8898aa"
+          />
+          <YAxis
+            tickLine={false}
+            axisLine={false}
+            fontSize={14}
+            stroke="#8898aa"
+          />
           <Tooltip cursor={false} />
 
           <Line
@@ -84,11 +96,9 @@ export default class Example extends PureComponent {
             stroke="#8884d8"
             activeDot={{ r: 8 }}
             strokeWidth={4}
-            animationBegin={1000}
-            animationDuration={2000}
+            // animationBegin={1000}
+            animationDuration={1000}
             animationEasing="ease-in"
-            name="SALES"
-            textDecoration="red"
           />
           {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
         </LineChart>

@@ -10,6 +10,7 @@ import { MdDataUsage } from "react-icons/md";
 import Card from "../components/Card";
 import LineChart from "../components/LineChart";
 import Example from "../components/LineChart";
+import Barchart from "../components/Barchart";
 
 const Dashboard = () => {
   return (
@@ -62,28 +63,59 @@ const Dashboard = () => {
                   iconcolor="#f56036"
                 />
               </div>
+              <div className="d-flex justify-content-center align-items-center my-5">
+                <div
+                  className="card border-0 col-md-8 mx-auto"
+                  style={{
+                    backgroundColor: "#172b4d",
+                    height: "70vh",
+                  }}
+                >
+                  <div className="py-3">
+                    <h6
+                      className="text-white mx-4"
+                      style={{ fontSize: "10px" }}
+                    >
+                      OVERVIEW
+                    </h6>
+                    <h3
+                      className="text-white mx-4"
+                      style={{ fontSize: "14px", fontWeight: "bold" }}
+                    >
+                      SALES VALUE
+                    </h3>
+                  </div>
+                  <Example />
+                </div>
+                <div
+                  className="col-md-4 card border-0 shadow mx-3"
+                  style={{
+                    backgroundColor: "#fff",
+                    height: "70vh",
+                  }}
+                >
+                  <div className="py-3">
+                    <h6
+                      className="mx-4"
+                      style={{ fontSize: "10px", color: "#8898aa" }}
+                    >
+                      PERFOMANCE
+                    </h6>
+                    <h3
+                      className="mx-4"
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        color: "#32325d",
+                      }}
+                    >
+                      DAILY SALES
+                    </h3>
+                  </div>
+                  <Barchart />
+                </div>
+              </div>
             </div>
-          </div>
-          <div
-            className="card border-0 mx-auto  px-3 mb-5"
-            style={{
-              width: "calc(100% - 3rem)",
-              height: "75%",
-              backgroundColor: "#172b4d",
-            }}
-          >
-            <div className="py-3">
-              <h6 className="text-white mx-4" style={{ fontSize: "10px" }}>
-                OVERVIEW
-              </h6>
-              <h3
-                className="text-white mx-4"
-                style={{ fontSize: "14px", fontWeight: "bold" }}
-              >
-                SALES VALUE
-              </h3>
-            </div>
-            <Example />
           </div>
         </main>
       </div>

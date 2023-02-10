@@ -39,7 +39,7 @@ body{
   align-items: center;
   height: 100vh;
   flex-direction: column;
-  /* background-image: url(./assets/png/bg.svg); */
+  background-image: url(./assets/png/bg.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -64,7 +64,7 @@ body{
   background-color: #fff;
   /* font-family: PoppinsBold; */
   position: relative;
-
+  
 }
 
 .main{
@@ -78,6 +78,10 @@ body{
   background-color: #f6f9fc;
   color: #000;
 
+}
+
+.activelink{
+  background-color: #ccdae8;
 }
 .list_active:active{
   background-color: #f6f9fc;

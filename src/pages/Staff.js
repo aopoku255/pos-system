@@ -19,6 +19,7 @@ import Sidebar from "../components/Sidebar";
 import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { FcAddRow } from "react-icons/fc";
+import profile from "../assets/jpg/profile.jpg";
 
 const Staff = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +68,14 @@ const Staff = () => {
                   <td></td>
                   <td className="py-4">
                     <div className="d-flex  align-items-center ">
-                      <div className="staff_img rounded-circle"></div>
+                      <div className="staff_img rounded-circle">
+                        <img
+                          src={profile}
+                          alt=""
+                          className="img-fluid rounded-circle"
+                          style={{ pointerEvents: "none" }}
+                        />
+                      </div>
                       <h6 className="mx-2 staff_name">John Doe</h6>
                     </div>
                   </td>
@@ -91,7 +99,13 @@ const Staff = () => {
                   <td></td>
                   <td className="py-4">
                     <div className="d-flex  align-items-center ">
-                      <div className="staff_img rounded-circle"></div>
+                      <div className="staff_img rounded-circle">
+                        <img
+                          src={profile}
+                          alt=""
+                          className="img-fluid rounded-circle"
+                        />
+                      </div>
                       <h6 className="mx-2 staff_name">John Doe</h6>
                     </div>
                   </td>
@@ -115,7 +129,13 @@ const Staff = () => {
                   <td></td>
                   <td className="py-4">
                     <div className="d-flex  align-items-center ">
-                      <div className="staff_img rounded-circle"></div>
+                      <div className="staff_img rounded-circle">
+                        <img
+                          src={profile}
+                          alt=""
+                          className="img-fluid rounded-circle"
+                        />
+                      </div>
                       <h6 className="mx-2 staff_name">John Doe</h6>
                     </div>
                   </td>
@@ -139,7 +159,13 @@ const Staff = () => {
                   <td></td>
                   <td className="py-4">
                     <div className="d-flex  align-items-center ">
-                      <div className="staff_img rounded-circle"></div>
+                      <div className="staff_img rounded-circle">
+                        <img
+                          src={profile}
+                          alt=""
+                          className="img-fluid rounded-circle"
+                        />
+                      </div>
                       <h6 className="mx-2 staff_name">John Doe</h6>
                     </div>
                   </td>
@@ -163,7 +189,13 @@ const Staff = () => {
                   <td></td>
                   <td className="py-4">
                     <div className="d-flex  align-items-center ">
-                      <div className="staff_img rounded-circle"></div>
+                      <div className="staff_img rounded-circle">
+                        <img
+                          src={profile}
+                          alt=""
+                          className="img-fluid rounded-circle"
+                        />
+                      </div>
                       <h6 className="mx-2 staff_name">John Doe</h6>
                     </div>
                   </td>
@@ -187,7 +219,13 @@ const Staff = () => {
                   <td></td>
                   <td className="py-4">
                     <div className="d-flex  align-items-center ">
-                      <div className="staff_img rounded-circle"></div>
+                      <div className="staff_img rounded-circle">
+                        <img
+                          src={profile}
+                          alt=""
+                          className="img-fluid rounded-circle"
+                        />
+                      </div>
                       <h6 className="mx-2 staff_name">John Doe</h6>
                     </div>
                   </td>
