@@ -79,11 +79,11 @@ const Customers = () => {
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
                       <UncontrolledTooltip target="edit">
-                        Edit product
+                        Edit customer
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
-                        Delete product
+                        Delete customer
                       </UncontrolledTooltip>
                     </div>
                   </td>
@@ -102,11 +102,11 @@ const Customers = () => {
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
                       <UncontrolledTooltip target="edit">
-                        Edit product
+                        Edit customer
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
-                        Delete product
+                        Delete customer
                       </UncontrolledTooltip>
                     </div>
                   </td>
@@ -125,11 +125,11 @@ const Customers = () => {
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
                       <UncontrolledTooltip target="edit">
-                        Edit product
+                        Edit customer
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
-                        Delete product
+                        Delete customer
                       </UncontrolledTooltip>
                     </div>
                   </td>
@@ -148,11 +148,11 @@ const Customers = () => {
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
                       <UncontrolledTooltip target="edit">
-                        Edit product
+                        Edit customer
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
-                        Delete product
+                        Delete customer
                       </UncontrolledTooltip>
                     </div>
                   </td>
@@ -171,11 +171,11 @@ const Customers = () => {
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
                       <UncontrolledTooltip target="edit">
-                        Edit product
+                        Edit customer
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
-                        Delete product
+                        Delete customer
                       </UncontrolledTooltip>
                     </div>
                   </td>

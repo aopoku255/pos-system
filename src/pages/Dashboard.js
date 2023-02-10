@@ -85,6 +85,7 @@ const Dashboard = () => {
                       SALES VALUE
                     </h3>
                   </div>
+                  <hr className="my-0 pb-4" />
                   <Example />
                 </div>
                 <div
@@ -112,6 +113,7 @@ const Dashboard = () => {
                       DAILY SALES
                     </h3>
                   </div>
+                  <hr className="text-secondary my-0 pb-4" />
                   <Barchart />
                 </div>
               </div>

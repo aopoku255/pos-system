@@ -86,7 +86,7 @@ const Staff = () => {
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
                       <UncontrolledTooltip target="edit">
-                        Edit product
+                        Edit staff
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
@@ -116,7 +116,7 @@ const Staff = () => {
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
                       <UncontrolledTooltip target="edit">
-                        Edit product
+                        Edit staff
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
@@ -146,7 +146,7 @@ const Staff = () => {
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
                       <UncontrolledTooltip target="edit">
-                        Edit product
+                        Edit staff
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
@@ -176,7 +176,7 @@ const Staff = () => {
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
                       <UncontrolledTooltip target="edit">
-                        Edit product
+                        Edit staff
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
@@ -206,7 +206,7 @@ const Staff = () => {
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
                       <UncontrolledTooltip target="edit">
-                        Edit product
+                        Edit staff
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
@@ -236,7 +236,7 @@ const Staff = () => {
                     <div className="d-flex">
                       <FiEdit className="edit" id="edit" />
                       <UncontrolledTooltip target="edit">
-                        Edit product
+                        Edit staff
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">

@@ -73,11 +73,11 @@ const Sales = () => {
                     <div className="d-flex">
                       <BsFillPrinterFill className="edit" id="printer" />
                       <UncontrolledTooltip target="printer">
-                        Edit product
+                        Print sales
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
-                        Delete product
+                        Delete sales
                       </UncontrolledTooltip>
                     </div>
                   </td>
@@ -94,11 +94,11 @@ const Sales = () => {
                     <div className="d-flex">
                       <BsFillPrinterFill className="edit" id="printer" />
                       <UncontrolledTooltip target="printer">
-                        Edit product
+                        Print sales
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
-                        Delete product
+                        Delete sales
                       </UncontrolledTooltip>
                     </div>
                   </td>
@@ -115,11 +115,11 @@ const Sales = () => {
                     <div className="d-flex">
                       <BsFillPrinterFill className="edit" id="printer" />
                       <UncontrolledTooltip target="printer">
-                        Edit product
+                        Print sales
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
-                        Delete product
+                        Delete sales
                       </UncontrolledTooltip>
                     </div>
                   </td>
@@ -136,11 +136,11 @@ const Sales = () => {
                     <div className="d-flex">
                       <BsFillPrinterFill className="edit" id="printer" />
                       <UncontrolledTooltip target="printer">
-                        Edit product
+                        Print sales
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
-                        Delete product
+                        Delete sales
                       </UncontrolledTooltip>
                     </div>
                   </td>
@@ -157,11 +157,11 @@ const Sales = () => {
                     <div className="d-flex">
                       <BsFillPrinterFill className="edit" id="printer" />
                       <UncontrolledTooltip target="printer">
-                        Edit product
+                        Print sales
                       </UncontrolledTooltip>
                       <MdDelete className="delete" id="delete" />
                       <UncontrolledTooltip target="delete">
-                        Delete product
+                        Delete sales
                       </UncontrolledTooltip>
                     </div>
                   </td>
