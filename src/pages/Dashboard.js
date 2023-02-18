@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { ImArrowUp2 } from "react-icons/im";
@@ -11,8 +11,67 @@ import Card from "../components/Card";
 import LineChart from "../components/LineChart";
 import Example from "../components/LineChart";
 import Barchart from "../components/Barchart";
+import axios from "../api/axios";
 
 const Dashboard = () => {
+  const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
+  const accessToken = userinfo.refreshToken;
+  const id = userinfo.id;
+
+  // SALES TODAY
+  const [salesToday, setSalesToday] = useState({});
+  useEffect(() => {
+    axios
+      .post(
+        "sales/sales-today",
+        { shop_id: id },
+        { headers: { "auth-token": accessToken } }
+      )
+      .then((res) => setSalesToday({...res.data.data}))
+      .catch((err) => console.log(err));
+  }, []);
+
+  // SALES TODAY
+  const [salesMonth, setSalesMonth] = useState({});
+  useEffect(() => {
+    axios
+      .post(
+        "sales/sales-current-month",
+        { shop_id: id },
+        { headers: { "auth-token": accessToken } }
+      )
+      .then((res) => setSalesMonth({ ...res.data.data }))
+      .catch((err) => console.log(err));
+  }, []);
+
+  // SALES TODAY
+  const [totalRev, setTotalRev] = useState(0);
+  useEffect(() => {
+    axios
+      .post(
+        "sales/total-sales",
+        { shop_id: id },
+        { headers: { "auth-token": accessToken } }
+      )
+      .then((res) => setTotalRev(res.data.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  // TOTAL PRODUCTS
+  const [data, setData] = useState(0);
+
+  // FETCH PRODUCTS
+  useEffect(() => {
+    axios
+      .post(
+        "product/fetch-product",
+        { store_id: id },
+        { headers: { "auth-token": accessToken } }
+      )
+      .then((res) => setData(res.data.data.length))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div>
       <div className="d-flex">
@@ -25,19 +84,19 @@ const Dashboard = () => {
           <div className="card_container">
             <Header name="DASHBOARD" />
             <div className="container">
-              <div className="cards_grid mt-5">
+              <div className="cards_grid mt-3">
                 <Card
-                  name="Total Revenue"
-                  amount="350,897"
+                  name="SALES TODAY"
+                  amount={salesToday.sale}
                   percentage="3.48%"
-                  icon={<HiDatabase size={20} />}
+                  icon={<MdDataUsage size={20} />}
                   bgclass="card_icon"
                   bgcolor="bgcolor_1"
                   iconcolor="#825ee4"
                 />
                 <Card
-                  name="Total Products"
-                  amount="350,897"
+                  name="SALES THIS MONTH"
+                  amount={salesMonth.sale}
                   percentage="3.48%"
                   icon={<BsPieChartFill size={20} />}
                   bgclass="card_icon2"
@@ -45,8 +104,8 @@ const Dashboard = () => {
                   iconcolor="#2dcecc"
                 />
                 <Card
-                  name="SALES"
-                  amount="350,897"
+                  name="TOTAL REVENUE"
+                  amount={totalRev}
                   percentage="3.48%"
                   icon={<BsClipboardData size={20} />}
                   bgclass="card_icon3"
@@ -54,10 +113,10 @@ const Dashboard = () => {
                   iconcolor="#fbb140"
                 />
                 <Card
-                  name="Stocks"
-                  amount="350,897"
+                  name="TOTAL PRODUCT"
+                  amount={data}
+                  icon={<HiDatabase size={20} />}
                   percentage="3.48%"
-                  icon={<MdDataUsage size={20} />}
                   bgclass="card_icon4"
                   bgcolor="bgcolor_4"
                   iconcolor="#f56036"
@@ -71,19 +130,35 @@ const Dashboard = () => {
                     height: "70vh",
                   }}
                 >
-                  <div className="py-3">
-                    <h6
-                      className="text-white mx-4"
-                      style={{ fontSize: "10px" }}
-                    >
-                      OVERVIEW
-                    </h6>
-                    <h3
-                      className="text-white mx-4"
-                      style={{ fontSize: "14px", fontWeight: "bold" }}
-                    >
-                      SALES VALUE
-                    </h3>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div className="py-3">
+                      <h6
+                        className="text-white mx-4"
+                        style={{ fontSize: "10px" }}
+                      >
+                        OVERVIEW
+                      </h6>
+                      <h3
+                        className="text-white mx-4"
+                        style={{ fontSize: "14px", fontWeight: "bold" }}
+                      >
+                        SALES VALUE
+                      </h3>
+                    </div>
+                    <div className="py-3">
+                      <h6
+                        className="text-white mx-4"
+                        style={{ fontSize: "10px" }}
+                      >
+                        {salesMonth.name}
+                      </h6>
+                      <h3
+                        className="text-white mx-4"
+                        style={{ fontSize: "12px", fontWeight: "bold" }}
+                      >
+                        GH₵{salesMonth.sale}
+                      </h3>
+                    </div>
                   </div>
                   <hr className="my-0 pb-4" />
                   <Example />
@@ -95,6 +170,8 @@ const Dashboard = () => {
                     height: "70vh",
                   }}
                 >
+                  <div className="d-flex justify-content-between align-items-center">
+
                   <div className="py-3">
                     <h6
                       className="mx-4"
@@ -112,6 +189,25 @@ const Dashboard = () => {
                     >
                       DAILY SALES
                     </h3>
+                  </div>
+                  <div className="py-3">
+                    <h6
+                      className="mx-4"
+                      style={{ fontSize: "10px", color: "#8898aa" }}
+                    >
+                     {salesToday.name}
+                    </h6>
+                    <h3
+                      className="mx-4"
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: "bold",
+                        color: "#32325d",
+                      }}
+                    >
+                     GH₵{salesToday.sale}
+                    </h3>
+                  </div>
                   </div>
                   <hr className="text-secondary my-0 pb-4" />
                   <Barchart />

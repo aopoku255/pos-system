@@ -13,10 +13,15 @@ const Header = (props) => {
   const handleOpenMenu = () => {
     setIsOpen(!isOpen);
   };
+  const day = new Date().toLocaleDateString("en-US", {weekday: "long"})
+  const month = new Date().toLocaleDateString("en-US", {month: "long"})
+  const year = new Date().getFullYear()
+  const date = new Date().getDate()
   return (
     <div className="page_profile mx-3 pt-5">
       <div>
         <h1 className="page_header">{props.name}</h1>
+        <p className="text-secondary"><span style={{color: "#5e72e4"}}>{day}</span>, {date} {month} {year}</p>
       </div>
       <div className="d-flex flex-column align-items-center profile_container">
         <img

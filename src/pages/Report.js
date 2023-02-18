@@ -20,6 +20,7 @@ import { FiEdit } from "react-icons/fi";
 import { MdDelete, MdOutlinePictureAsPdf } from "react-icons/md";
 import { FcAddRow } from "react-icons/fc";
 import { BsFillPrinterFill } from "react-icons/bs";
+import axios from "../api/axios";
 
 const Report = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +38,31 @@ const Report = () => {
     setUnmountOnClose(JSON.parse(value));
   };
 
+  const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
+  const accessToken = userinfo.refreshToken;
+  const id = userinfo.id;
+
+  // Define a function to download the file
+  const handleSaveReport = () => {
+    axios({
+      url: "reports",
+      method: "POST",
+      responseType: "blob", // Set the response type to "blob" to receive binary data
+      headers: { "auth-token": accessToken },
+    })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "table.pdf");
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => {
+        console.error("Error downloading file:", error);
+      });
+  };
+
   return (
     <div>
       <div className="d-flex">
@@ -46,7 +72,10 @@ const Report = () => {
           <div className="table-responsive mt-3 mb-5 shadow mx-3 rounded">
             <div className="d-flex justify-content-between align-items-center py-3 px-3">
               <div></div>
-              <button className="btn btn-primary border-0  shadow text-uppercase">
+              <button
+                className="btn btn-primary border-0  shadow text-uppercase"
+                onClick={handleSaveReport}
+              >
                 <MdOutlinePictureAsPdf />
                 EXPORT
               </button>

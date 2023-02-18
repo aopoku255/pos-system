@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import { FiLock } from "react-icons/fi";
 import { FaUser, FaLock } from "react-icons/fa";
+import { Input } from "reactstrap";
+import axios from "../api/axios";
+import { toast, Toaster } from "react-hot-toast";
 
 const Login = () => {
   const [errMes, setErrMes] = useState("");
@@ -10,23 +13,37 @@ const Login = () => {
   const [show, setShow] = useState(false);
   const [isLoadin, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [details, setDetails] = useState({ account_id: "", password: "" });
+  const [details, setDetails] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setDetails({ ...details, [name]: value });
   };
-  const handleFocus = () => {
-    setIsLoading(true);
-  };
 
-  const handleClick = () => {
-    setShow(!show);
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const remove = toast.loading("Loading...");
+    try {
+      const res = await axios.post("user/login", { ...details });
+      if (res.data.status === 400) {
+        toast.dismiss(remove);
+        toast.error(res.data.message);
+      } else {
+        toast.dismiss(remove);
+        toast.success(`Welcome ${res.data.name}`);
+        sessionStorage.setItem("userInfo", JSON.stringify(res.data));
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1500);
+      }
+    } catch (error) {}
   };
 
   return (
     <div className="center">
+      <Toaster />
       <h5 className="mt-4 mb-4 text-white">Welcome Back</h5>
       <div className="card shadow-lg border-0 login">
         <p className="text-center text-secondary pt-5">
@@ -35,42 +52,44 @@ const Login = () => {
         <Link to="/" className=" mx-auto">
           {/* <img src={logo} alt="" width={120} /> */}
         </Link>
-        <div className="card-body">
+        <form className="card-body" onSubmit={handleSubmit}>
           {error ? <div className="error">{errMes}</div> : ""}
           <div className="form-group ">
             {/* ACCOUNT */}
             <div className="form-floating mb-4">
-              <input
+              <Input
                 type="text"
                 className="form-control login-form-control"
                 id="email"
-                placeholder="Business ID"
-                name="account_id"
-                value={details.account_id}
+                placeholder="email"
+                name="email"
+                value={details.email}
                 onChange={handleChange}
+                required
               />
-              <label for="email" className="light-text">
+              <label htmlFor="email" className="light-text">
                 <FaUser className="text-secondary" />
-                <span className="mx-2 text-secondary">username</span>
+                <span className="mx-2 text-secondary">email</span>
               </label>
             </div>
 
             {/* PASSWORD */}
             <div className="form-floating input_container">
-              <input
-                type={show ? "text" : "password"}
+              <Input
+                type="password"
                 className="form-control login-form-control"
                 id="password"
                 placeholder="Password"
                 name="password"
                 value={details.password}
                 onChange={handleChange}
+                required
               />
-              <label for="password" className="light-text">
+              <label htmlFor="password" className="light-text">
                 <FaLock className="text-secondary" />
                 <span className="mx-2 text-secondary">password</span>
               </label>
-              {!details.password ? (
+              {/* {!details.password ? (
                 ""
               ) : (
                 <div>
@@ -84,7 +103,7 @@ const Login = () => {
                     </span>
                   )}
                 </div>
-              )}
+              )} */}
             </div>
 
             <button type="submit" className="submit_btn w-100 mt-4">
@@ -100,7 +119,7 @@ const Login = () => {
               </Link>
             </p>
           </div>
-        </div>
+        </form>
       </div>
       <div className="d-flex justify-content-between align-items-center mt-3 login">
         <div className="">
@@ -111,7 +130,10 @@ const Login = () => {
               value=""
               id="rememberme"
             />
-            <label className="form-check-label text-white " for="rememberme">
+            <label
+              className="form-check-label text-white "
+              htmlFor="rememberme"
+            >
               Remember Me
             </label>
           </div>

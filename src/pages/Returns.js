@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   FormGroup,
@@ -17,6 +17,8 @@ import Sidebar from "../components/Sidebar";
 import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { FcAddRow } from "react-icons/fc";
+import axios from "../api/axios";
+import { toast, Toaster } from "react-hot-toast";
 
 const Returns = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,12 +36,54 @@ const Returns = () => {
     setUnmountOnClose(JSON.parse(value));
   };
 
+  const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
+  const accessToken = userinfo.refreshToken;
+  const id = userinfo.id;
+
+  // FETCH PRODUCTS
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios
+      .post(
+        "return",
+        { shop_id: id },
+        { headers: { "auth-token": accessToken } }
+      )
+      .then((res) => setData(res.data.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const [invoiceNum, setInvoiceNum] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await axios.post(
+      "return/add-return",
+      { invoice_number: invoiceNum, shop_id: id },
+      { headers: { "auth-token": accessToken } }
+    );
+    console.log(res)
+    if(res.data.status === "failed"){
+      toast.error(res.data.message)
+      setTimeout(() => {
+        setIsOpen(false)
+      }, 1500)
+    }
+    else{
+      toast.success(res.data.message)
+      setTimeout(() => {
+        setIsOpen(false)
+      }, 1500)
+    }
+  };
+
   return (
     <div>
       <div className="d-flex">
         <Sidebar />
         <main className="main">
-          <Header name="PRODUCTS" />
+          <Toaster/>
+          <Header name="RETURNS" />
           <div className="table-responsive mt-3 mb-5 shadow mx-3 rounded">
             <div className="d-flex justify-content-between align-items-center py-3 px-3">
               <div></div>
@@ -55,120 +99,35 @@ const Returns = () => {
                 <tr>
                   <th>#</th>
                   <th>Invoice No.</th>
-                  <th>Name</th>
-                  <th>Image</th>
-                  <th>Quantity</th>
-                  <th>Total</th>
                   <th>Date</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody className="text-center">
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                  <td className="py-4">
-                    <div className="d-flex">
-                      {/* <BsFillPrinterFill className="edit" id="printer" />
-                      <UncontrolledTooltip target="printer">
-                        Edit product
-                      </UncontrolledTooltip> */}
-                      <MdDelete className="delete" id="delete" />
-                      <UncontrolledTooltip target="delete">
-                        Delete product
-                      </UncontrolledTooltip>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                  <td className="py-4">
-                    <div className="d-flex">
-                      {/* <BsFillPrinterFill className="edit" id="printer" />
-                      <UncontrolledTooltip target="printer">
-                        Edit product
-                      </UncontrolledTooltip> */}
-                      <MdDelete className="delete" id="delete" />
-                      <UncontrolledTooltip target="delete">
-                        Delete product
-                      </UncontrolledTooltip>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                  <td className="py-4">
-                    <div className="d-flex">
-                      {/* <BsFillPrinterFill className="edit" id="printer" />
-                      <UncontrolledTooltip target="printer">
-                        Edit product
-                      </UncontrolledTooltip> */}
-                      <MdDelete className="delete" id="delete" />
-                      <UncontrolledTooltip target="delete">
-                        Delete product
-                      </UncontrolledTooltip>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                  <td className="py-4">
-                    <div className="d-flex">
-                      {/* <BsFillPrinterFill className="edit" id="printer" />
-                      <UncontrolledTooltip target="printer">
-                        Edit product
-                      </UncontrolledTooltip> */}
-                      <MdDelete className="delete" id="delete" />
-                      <UncontrolledTooltip target="delete">
-                        Delete product
-                      </UncontrolledTooltip>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                  <td className="py-4">
-                    <div className="d-flex">
-                      {/* <BsFillPrinterFill className="edit" id="printer" />
-                      <UncontrolledTooltip target="printer">
-                        Edit product
-                      </UncontrolledTooltip> */}
-                      <MdDelete className="delete" id="delete" />
-                      <UncontrolledTooltip target="delete">
-                        Delete product
-                      </UncontrolledTooltip>
-                    </div>
-                  </td>
-                </tr>
+                {data.map(({ invoice_number, createdAt }, index) => (
+                  <tr>
+                    <td className="py-4">{index + 1}</td>
+                    <td className="py-4">{invoice_number}</td>
+                    <td className="py-4">
+                      {" "}
+                      {`${new Date(createdAt).getDate()}/${
+                        new Date(createdAt).getMonth() + 1
+                      }/${new Date(createdAt).getFullYear()}`}
+                    </td>
+                    <td className="py-4">
+                      <div className="d-flex">
+                        {/* <BsFillPrinterFill className="edit" id="printer" />
+                    <UncontrolledTooltip target="printer">
+                      Edit product
+                    </UncontrolledTooltip> */}
+                        <MdDelete className="delete" id="delete" />
+                        <UncontrolledTooltip target="delete">
+                          Delete product
+                        </UncontrolledTooltip>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </Table>
             <Modal isOpen={isOpen} centered>
@@ -179,16 +138,22 @@ const Returns = () => {
                 Add Product Information
               </ModalHeader>
               <ModalBody>
-                <form action="">
+                <form onSubmit={handleSubmit}>
                   <FormGroup>
                     <Label>Invoice number</Label>
-                    <Input type="text" placeholder="IN2564895" />
+                    <Input
+                      type="text"
+                      placeholder="IN2564895"
+                      required
+                      onChange={(e) => setInvoiceNum(e.target.value)}
+                    />
                   </FormGroup>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div></div>
+                    <Button color="success">Done</Button>{" "}
+                  </div>
                 </form>
               </ModalBody>
-              <ModalFooter>
-                <Button color="success">Done</Button>{" "}
-              </ModalFooter>
             </Modal>
           </div>
         </main>

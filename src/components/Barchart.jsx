@@ -10,45 +10,79 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-
-const data = [
-  {
-    name: "Mon",
-    uv: 4000,
-  },
-  {
-    name: "Tue",
-    uv: 3000,
-  },
-  {
-    name: "Wed",
-    uv: 2000,
-  },
-  {
-    name: "Thur",
-    uv: 2780,
-  },
-  {
-    name: "Fri",
-    uv: 1890,
-  },
-  {
-    name: "Sat",
-    uv: 2390,
-  },
-  {
-    name: "Sun",
-    uv: 3490,
-  },
-];
+import axios from "../api/axios";
+import axioss from "axios";
 
 export default class Barchart extends PureComponent {
   //   static demoUrl = 'https://codesandbox.io/s/tiny-bar-chart-35meb';
+  constructor(props) {
+    var userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    var accessToken = userinfo.refreshToken;
+    let id = userinfo.id;
+    super(props);
+    this.state = {
+      data: [],
+      shop_id: id,
+      accessToken: accessToken,
+    };
+  }
+
+  componentDidMount() {
+    axios
+      .post(
+        "sales/day-sales",
+        { shop_id: this.state.shop_id },
+        { headers: { "auth-token": this.state.accessToken } }
+      )
+      .then((res) => this.setState({ data: res.data.data }))
+      .catch((err) => console.log(err));
+  }
 
   render() {
+    // console.log(this.state.data)
+
+    const datas = [
+      {
+        name: "Mon",
+        uv: 0,
+      },
+      {
+        name: "Tue",
+        uv: 0,
+      },
+      {
+        name: "Wed",
+        uv: 0,
+      },
+      {
+        name: "Thu",
+        uv: 0,
+      },
+      {
+        name: "Fri",
+        uv: 0,
+      },
+      {
+        name: "Sat",
+        uv: 0,
+      },
+      {
+        name: "Sun",
+        uv: 0,
+      },
+    ];
+
+    this.state.data.forEach(({ name, sale }) => {
+      datas.forEach((item) => {
+        if (item.name === name) {
+          item.uv = sale;
+        }
+      });
+    });
+
     return (
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart width={150} height={40} data={data}>
+        <BarChart width={150} height={40} data={datas}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <Tooltip cursor={false} />
           <Bar

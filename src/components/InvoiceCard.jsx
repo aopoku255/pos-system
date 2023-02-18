@@ -10,18 +10,18 @@ const InvoiceCard = (props) => {
       onClick={props.handleClick}
       onFocus={props.handleFocus}
     >
-      {/* <input
+      <input
         type="checkbox"
         name=""
         id=""
-        className="card_select"
+        className="card_select check mt-1 mb-2 mx-2"
         onChange={props.handleChange}
-      /> */}
+      />
       <img
         src={props.product_img}
         alt=""
         width={100}
-        className="d-block mx-auto mt-2"
+        className="d-block mx-auto mt-4"
         style={{
           pointerEvents: "none",
           aspectRatio: "3 / 2",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -19,7 +19,8 @@ import Sidebar from "../components/Sidebar";
 import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { FcAddRow } from "react-icons/fc";
-import { BsFillPrinterFill } from "react-icons/bs";
+import { AiFillEye } from "react-icons/ai";
+import axios from "../api/axios";
 
 const Sales = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +28,10 @@ const Sales = () => {
   const handleAddTable = () => {
     setIsOpen(true);
   };
+
+  const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
+  const accessToken = userinfo.refreshToken;
+  const id = userinfo.id;
 
   const [modal, setModal] = useState(false);
   const [unmountOnClose, setUnmountOnClose] = useState(true);
@@ -36,6 +41,30 @@ const Sales = () => {
     let { value } = e.target;
     setUnmountOnClose(JSON.parse(value));
   };
+
+  const [data, setData] = useState([]);
+
+  // FETCH PRODUCTS
+  useEffect(() => {
+    axios
+      .post(
+        "invoice",
+        { shop_id: id },
+        { headers: { "auth-token": accessToken } }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  console.log(data);
+  const [itemid, setItemId] = useState("");
+
+  // const handleOpenDelete = (id) => {
+  //   setIsOpenDelete(true);
+  //   setItemId(id);
+  // };
 
   return (
     <div>
@@ -53,119 +82,51 @@ const Sales = () => {
                   <th>#</th>
                   <th>Invoice No.</th>
                   <th>Customer Name</th>
-                  <th>Image</th>
-                  <th>Quantity</th>
+                  <th>Payment Type</th>
                   <th>Total</th>
                   <th>Date</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody className="text-center">
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                  <td className="py-4">
-                    <div className="d-flex">
-                      <BsFillPrinterFill className="edit" id="printer" />
-                      <UncontrolledTooltip target="printer">
-                        Print sales
-                      </UncontrolledTooltip>
-                      <MdDelete className="delete" id="delete" />
-                      <UncontrolledTooltip target="delete">
-                        Delete sales
-                      </UncontrolledTooltip>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                  <td className="py-4">
-                    <div className="d-flex">
-                      <BsFillPrinterFill className="edit" id="printer" />
-                      <UncontrolledTooltip target="printer">
-                        Print sales
-                      </UncontrolledTooltip>
-                      <MdDelete className="delete" id="delete" />
-                      <UncontrolledTooltip target="delete">
-                        Delete sales
-                      </UncontrolledTooltip>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                  <td className="py-4">
-                    <div className="d-flex">
-                      <BsFillPrinterFill className="edit" id="printer" />
-                      <UncontrolledTooltip target="printer">
-                        Print sales
-                      </UncontrolledTooltip>
-                      <MdDelete className="delete" id="delete" />
-                      <UncontrolledTooltip target="delete">
-                        Delete sales
-                      </UncontrolledTooltip>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                  <td className="py-4">
-                    <div className="d-flex">
-                      <BsFillPrinterFill className="edit" id="printer" />
-                      <UncontrolledTooltip target="printer">
-                        Print sales
-                      </UncontrolledTooltip>
-                      <MdDelete className="delete" id="delete" />
-                      <UncontrolledTooltip target="delete">
-                        Delete sales
-                      </UncontrolledTooltip>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">image</td>
-                  <td className="py-4">20</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                  <td className="py-4">
-                    <div className="d-flex">
-                      <BsFillPrinterFill className="edit" id="printer" />
-                      <UncontrolledTooltip target="printer">
-                        Print sales
-                      </UncontrolledTooltip>
-                      <MdDelete className="delete" id="delete" />
-                      <UncontrolledTooltip target="delete">
-                        Delete sales
-                      </UncontrolledTooltip>
-                    </div>
-                  </td>
-                </tr>
+                {data.map(
+                  (
+                    {
+                      invoice_number,
+                      customer_name,
+                      image,
+                      grand_total,
+                      payment_type,
+                      createdAt,
+                    },
+                    index
+                  ) => (
+                    <tr>
+                      <td className="py-4">{index + 1}</td>
+                      <td className="py-4">{invoice_number}</td>
+                      <td className="py-4">
+                        {customer_name === "" ? "N/A" : customer_name}
+                      </td>
+                      <td className="py-4">{payment_type}</td>
+                      <td className="py-4">{grand_total}</td>
+                      <td className="py-4">{`${new Date(createdAt).getDate()}/${
+                        new Date(createdAt).getMonth() + 1
+                      }/${new Date(createdAt).getFullYear()}`}</td>
+                      <td className="py-4">
+                        <div className="d-flex">
+                          <AiFillEye className="edit" id="printer" />
+                          <UncontrolledTooltip target="printer">
+                            Print sales
+                          </UncontrolledTooltip>
+                          <MdDelete className="delete" id="delete" />
+                          <UncontrolledTooltip target="delete">
+                            Delete sales
+                          </UncontrolledTooltip>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                )}
               </tbody>
             </Table>
           </div>

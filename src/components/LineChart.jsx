@@ -10,56 +10,98 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
+import axios from "../api/axios";
 
-const data = [
-  {
-    name: "Jan",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Feb",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Mar",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Apr",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "May",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Jun",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Jul",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+
 
 export default class Example extends PureComponent {
-  static demoUrl = "https://codesandbox.io/s/simple-line-chart-kec3v";
+  // static demoUrl = "https://codesandbox.io/s/simple-line-chart-kec3v";
+
+
+  constructor(props) {
+    var userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    var accessToken = userinfo.refreshToken;
+    let id = userinfo.id;
+    super(props);
+    this.state = {
+      data: [],
+      shop_id: id,
+      accessToken: accessToken,
+    };
+  }
+
+  componentDidMount() {
+    axios
+      .post(
+        "sales/monthly-sales",
+        { shop_id: this.state.shop_id },
+        { headers: { "auth-token": this.state.accessToken } }
+      )
+      .then((res) => this.setState({ data: res.data.data }))
+      .catch((err) => console.log(err));
+  }
 
   render() {
+
+    const data = [
+      {
+        name: "Jan",
+        pv: 0,
+      },
+      {
+        name: "Feb",
+        pv: 0,
+      },
+      {
+        name: "Mar",
+        pv: 0,
+      },
+      {
+        name: "Apr",
+        pv: 0,
+      },
+      {
+        name: "May",
+        pv: 0,
+      },
+      {
+        name: "Jun",
+        pv: 0,
+      },
+      {
+        name: "Jul",
+        pv: 0,
+      },
+      {
+        name: "Aug",
+        pv: 0,
+      },
+      {
+        name: "Sep",
+        pv: 0,
+      },
+      {
+        name: "Oct",
+        pv: 0,
+      },
+      {
+        name: "Nov",
+        pv: 0,
+      },
+      {
+        name: "Dec",
+        pv: 0,
+      },
+    ];
+
+    this.state.data.forEach(({ name, sale }) => {
+      data.forEach((item) => {
+        if (item.name === name) {
+          item.pv = sale;
+        }
+      });
+    });
+
     return (
       <ResponsiveContainer width="100%" height="100%">
         <LineChart

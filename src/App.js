@@ -13,6 +13,7 @@ import Invoice from "./pages/Invoice";
 import Report from "./pages/Report";
 import Inventory from "./pages/Inventory";
 import Error from "./pages/Error";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   return (
@@ -24,16 +25,18 @@ function App() {
           <Route path="/register" element={<Signup />} />
 
           {/* PROTECTED ROUTE */}
-          <Route exact path="/dashboard" element={<Dashboard />} />
-          <Route exact path="/invoice" element={<Invoice />} />
-          <Route exact path="/products" element={<Products />} />
-          <Route exact path="/staff" element={<Staff />} />
-          <Route exact path="/sales" element={<Sales />} />
-          <Route exact path="/customers" element={<Customers />} />
-          <Route exact path="/returns" element={<Returns />} />
-          <Route exact path="/report" element={<Report />} />
-          <Route exact path="/inventory" element={<Inventory />} />
-          <Route exact path="*" element={<Error />} />
+          <Route element={<ProtectedRoute />}>
+            <Route exact path="/dashboard" element={<Dashboard />} />
+            <Route exact path="/invoice" element={<Invoice />} />
+            <Route exact path="/products" element={<Products />} />
+            <Route exact path="/staff" element={<Staff />} />
+            <Route exact path="/sales" element={<Sales />} />
+            <Route exact path="/customers" element={<Customers />} />
+            <Route exact path="/returns" element={<Returns />} />
+            <Route exact path="/report" element={<Report />} />
+            <Route exact path="/inventory" element={<Inventory />} />
+            <Route exact path="*" element={<Error />} />
+          </Route>
         </Routes>
       </Router>
     </div>
