@@ -77,6 +77,7 @@ export default class Barchart extends PureComponent {
         if (item.name === name) {
           item.uv = sale;
         }
+       
       });
     });
 

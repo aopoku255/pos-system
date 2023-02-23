@@ -20,7 +20,9 @@ import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { FcAddRow } from "react-icons/fc";
 import { AiFillEye } from "react-icons/ai";
+import { IoReceiptOutline } from "react-icons/io5";
 import axios from "../api/axios";
+import { Link } from "react-router-dom";
 
 const Sales = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,10 +63,12 @@ const Sales = () => {
   console.log(data);
   const [itemid, setItemId] = useState("");
 
-  // const handleOpenDelete = (id) => {
-  //   setIsOpenDelete(true);
-  //   setItemId(id);
-  // };
+  const handleDetails = (id) => {
+    sessionStorage.setItem("detialsIndex", id);
+  };
+  const handleReceipt = (id) => {
+    sessionStorage.setItem("receiptIndex", id);
+  };
 
   return (
     <div>
@@ -113,15 +117,26 @@ const Sales = () => {
                         new Date(createdAt).getMonth() + 1
                       }/${new Date(createdAt).getFullYear()}`}</td>
                       <td className="py-4">
-                        <div className="d-flex">
-                          <AiFillEye className="edit" id="printer" />
-                          <UncontrolledTooltip target="printer">
-                            Print sales
-                          </UncontrolledTooltip>
-                          <MdDelete className="delete" id="delete" />
+                        <div className="d-flex align-items-center">
+                          <Link to="/sales-receipt" onClick={() => handleReceipt(index)}>
+                            <IoReceiptOutline className="edit" id="receipt" />
+                            <UncontrolledTooltip target="receipt">
+                              Receipt
+                            </UncontrolledTooltip>
+                          </Link>
+                          <Link
+                            to="/sales-details"
+                            onClick={() => handleDetails(index)}
+                          >
+                            <AiFillEye className="edit" id="eye" />
+                            <UncontrolledTooltip target="eye">
+                              Sales details
+                            </UncontrolledTooltip>
+                          </Link>
+                          {/* <MdDelete className="delete" id="delete" />
                           <UncontrolledTooltip target="delete">
                             Delete sales
-                          </UncontrolledTooltip>
+                          </UncontrolledTooltip> */}
                         </div>
                       </td>
                     </tr>

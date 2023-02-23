@@ -14,6 +14,9 @@ import Report from "./pages/Report";
 import Inventory from "./pages/Inventory";
 import Error from "./pages/Error";
 import ProtectedRoute from "./ProtectedRoute";
+import InvoiceList from "./pages/InvoiceList";
+import SalesReceipt from "./pages/SalesReceipt";
+import InventoryRecords from "./pages/InventoryRecords";
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
             <Route exact path="/returns" element={<Returns />} />
             <Route exact path="/report" element={<Report />} />
             <Route exact path="/inventory" element={<Inventory />} />
+            <Route exact path="/sales-details" element={<InvoiceList />} />
+            <Route exact path="/sales-receipt" element={<SalesReceipt />} />
+            <Route exact path="/inventory-records" element={<InventoryRecords />} />
             <Route exact path="*" element={<Error />} />
           </Route>
         </Routes>

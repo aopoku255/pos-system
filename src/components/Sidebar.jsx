@@ -73,7 +73,7 @@ const Sidebar = () => {
             <MdOutlineInventory2 size={20} color="#172b4d" />
             <span className="mx-2">Inventory</span>
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/staff"
             className="list-group-item mx-2 mb-2 rounded border-0 list_active d-flex justify-content-start align-items-center"
             style={({ isActive }) =>
@@ -84,7 +84,7 @@ const Sidebar = () => {
           >
             <RiGroupLine size={20} color="#5e72e4" />
             <span className="mx-2">Staff</span>
-          </NavLink>
+          </NavLink> */}
           <NavLink
             to="/sales"
             className="list-group-item mx-2 mb-2 rounded border-0 list_active d-flex justify-content-start align-items-center"

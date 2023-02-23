@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Collapse } from "reactstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { Collapse, Modal, ModalBody } from "reactstrap";
 import profile from "../assets/jpg/profile.jpg";
 
 import { FaUser } from "react-icons/fa";
@@ -13,15 +13,28 @@ const Header = (props) => {
   const handleOpenMenu = () => {
     setIsOpen(!isOpen);
   };
-  const day = new Date().toLocaleDateString("en-US", {weekday: "long"})
-  const month = new Date().toLocaleDateString("en-US", {month: "long"})
-  const year = new Date().getFullYear()
-  const date = new Date().getDate()
+  const day = new Date().toLocaleDateString("en-US", { weekday: "long" });
+  const month = new Date().toLocaleDateString("en-US", { month: "long" });
+  const year = new Date().getFullYear();
+  const date = new Date().getDate();
+
+  const navgiate = useNavigate();
+  const handleLogout = (e) => {
+    e.preventDefault();
+    navgiate("/");
+    sessionStorage.clear();
+  };
+
+  const [openLog, setIsOpenLog] = useState(false)
+  const [isCloseLog, setIsCloseLog] = useState(false)
+
   return (
     <div className="page_profile mx-3 pt-5">
       <div>
         <h1 className="page_header">{props.name}</h1>
-        <p className="text-secondary"><span style={{color: "#5e72e4"}}>{day}</span>, {date} {month} {year}</p>
+        <p className="text-secondary">
+          <span style={{ color: "#5e72e4" }}>{day}</span>, {date} {month} {year}
+        </p>
       </div>
       <div className="d-flex flex-column align-items-center profile_container">
         <img
@@ -62,6 +75,7 @@ const Header = (props) => {
               <Link
                 to=""
                 className="list-group-item rounded border-0 list_active d-flex justify-content-start align-items-center text-danger"
+                onClick={() => setIsOpenLog(true)}
               >
                 <BiRun />
                 <span className="mx-2">Logout</span>
@@ -69,6 +83,26 @@ const Header = (props) => {
             </ul>
           </div>
         </Collapse>
+        <Modal isOpen={openLog} centered>
+              <ModalBody>
+                <h6 className="text-danger">Log Out</h6>
+                <p>Are you sure you want to logout?</p>
+                <div className="d-flex">
+                  <button
+                    className="btn btn-success"
+                    onClick={() => setIsOpenLog(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="btn btn-danger mx-3"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              </ModalBody>
+            </Modal>
       </div>
     </div>
   );

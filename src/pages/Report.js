@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -63,6 +63,22 @@ const Report = () => {
       });
   };
 
+  const [data, setData] = useState([]);
+  // FETCH PRODUCTS
+
+  // FETCH PRODUCTS
+  useEffect(() => {
+    axios
+      .post(
+        "invoice",
+        { shop_id: id },
+        { headers: { "auth-token": accessToken } }
+      )
+      .then((res) => setData(res.data.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+
   return (
     <div>
       <div className="d-flex">
@@ -92,41 +108,19 @@ const Report = () => {
                 </tr>
               </thead>
               <tbody className="text-center">
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                </tr>
-                <tr>
-                  <td className="py-4">1</td>
-                  <td className="py-4">IN256894</td>
-                  <td className="py-4">Banana</td>
-                  <td className="py-4">100</td>
-                  <td className="py-4">09/02/2023</td>
-                </tr>
+                {
+                  data.map(({customer_name, invoice_number, grand_total, createdAt}, index) => <tr>
+                  <td className="py-4">{index + 1}</td>
+                  <td className="py-4">{invoice_number}</td>
+                  <td className="py-4">{customer_name || "N/A"}</td>
+                  <td className="py-4">{grand_total}</td>
+                  <td className="py-4">{`${new Date(
+                        createdAt
+                      ).getDate()}/${
+                        new Date(createdAt).getMonth() + 1
+                      }/${new Date(createdAt).getFullYear()}`}</td>
+                </tr>)
+                }
               </tbody>
             </Table>
           </div>

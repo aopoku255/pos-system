@@ -19,6 +19,8 @@ import { MdDelete } from "react-icons/md";
 import { FcAddRow } from "react-icons/fc";
 import { toast, Toaster } from "react-hot-toast";
 import axios from "../api/axios";
+import { Link } from "react-router-dom";
+import { AiFillEye } from "react-icons/ai";
 
 const Inventory = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -90,6 +92,10 @@ const Inventory = () => {
     } catch (error) {}
   };
 
+  const handleInventory = (id) => {
+    sessionStorage.setItem("prodid", id);
+  };
+
   return (
     <div>
       <div className="d-flex">
@@ -97,7 +103,7 @@ const Inventory = () => {
         <main className="main">
           <Toaster />
           <Header name="INVENTORY" />
-          <div className="table-responsive mt-3 mb-5 shadow mx-3 rounded">
+          <div>
             <div className="d-flex justify-content-between align-items-center py-3 px-3">
               <div></div>
               {/* <button
@@ -128,7 +134,24 @@ const Inventory = () => {
                     <tr key={_id}>
                       <td className="py-4">{index + 1}</td>
                       <td className="py-4">{name}</td>
-                      <td className="py-4">{image}</td>
+                      <td className="py-4">
+                        {image === "image_url" ? (
+                          <p>N/A</p>
+                        ) : (
+                          <img
+                            src={image}
+                            alt=""
+                            style={{
+                              width: "5rem",
+                              height: "3rem",
+                              aspectRatio: "3 / 2",
+                              objectFit: "contain",
+                              mixBlendMode: "darken",
+                              pointerEvents: "none",
+                            }}
+                          />
+                        )}
+                      </td>
                       <td className="py-4">{selling_price}</td>
                       <td className="py-4">{total_stock}</td>
                       <td className="py-4">
@@ -137,7 +160,7 @@ const Inventory = () => {
                         }/${new Date(createdAt).getFullYear()}`}
                       </td>
                       <td className="py-4">
-                        <div className="d-flex">
+                        <div className="d-flex align-items-center">
                           <FiEdit
                             className="edit"
                             id="edit"
@@ -146,6 +169,15 @@ const Inventory = () => {
                           <UncontrolledTooltip target="edit">
                             Edit product
                           </UncontrolledTooltip>
+                          <Link
+                            to="/inventory-records"
+                            onClick={() => handleInventory(_id)}
+                          >
+                            <AiFillEye className="edit" id="eye" />
+                            <UncontrolledTooltip target="eye">
+                              View records
+                            </UncontrolledTooltip>
+                          </Link>
                           {/* <MdDelete
                             className="delete"
                             id="delete"

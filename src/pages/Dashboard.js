@@ -20,6 +20,7 @@ const Dashboard = () => {
 
   // SALES TODAY
   const [salesToday, setSalesToday] = useState({});
+  const [value, setValue] = useState(0);
   useEffect(() => {
     axios
       .post(
@@ -27,7 +28,10 @@ const Dashboard = () => {
         { shop_id: id },
         { headers: { "auth-token": accessToken } }
       )
-      .then((res) => setSalesToday({...res.data.data}))
+      .then((res) => {
+        setSalesToday({ ...res.data.data });
+        setValue(Number(value));
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -88,11 +92,12 @@ const Dashboard = () => {
                 <Card
                   name="SALES TODAY"
                   amount={salesToday.sale}
-                  percentage="3.48%"
+                  percentage={`${value}% `}
                   icon={<MdDataUsage size={20} />}
                   bgclass="card_icon"
                   bgcolor="bgcolor_1"
                   iconcolor="#825ee4"
+                  since="Since last yesterday"
                 />
                 <Card
                   name="SALES THIS MONTH"
@@ -171,43 +176,42 @@ const Dashboard = () => {
                   }}
                 >
                   <div className="d-flex justify-content-between align-items-center">
-
-                  <div className="py-3">
-                    <h6
-                      className="mx-4"
-                      style={{ fontSize: "10px", color: "#8898aa" }}
-                    >
-                      PERFOMANCE
-                    </h6>
-                    <h3
-                      className="mx-4"
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        color: "#32325d",
-                      }}
-                    >
-                      DAILY SALES
-                    </h3>
-                  </div>
-                  <div className="py-3">
-                    <h6
-                      className="mx-4"
-                      style={{ fontSize: "10px", color: "#8898aa" }}
-                    >
-                     {salesToday.name}
-                    </h6>
-                    <h3
-                      className="mx-4"
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                        color: "#32325d",
-                      }}
-                    >
-                     GH₵{salesToday.sale}
-                    </h3>
-                  </div>
+                    <div className="py-3">
+                      <h6
+                        className="mx-4"
+                        style={{ fontSize: "10px", color: "#8898aa" }}
+                      >
+                        PERFOMANCE
+                      </h6>
+                      <h3
+                        className="mx-4"
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                          color: "#32325d",
+                        }}
+                      >
+                        DAILY SALES
+                      </h3>
+                    </div>
+                    <div className="py-3">
+                      <h6
+                        className="mx-4"
+                        style={{ fontSize: "10px", color: "#8898aa" }}
+                      >
+                        {salesToday.name}
+                      </h6>
+                      <h3
+                        className="mx-4"
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: "bold",
+                          color: "#32325d",
+                        }}
+                      >
+                        GH₵{salesToday.sale}
+                      </h3>
+                    </div>
                   </div>
                   <hr className="text-secondary my-0 pb-4" />
                   <Barchart />

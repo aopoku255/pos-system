@@ -49,11 +49,12 @@ const Products = () => {
     selling_price: 0,
     total_stock: 1,
     discount: 0,
+    picture: null,
   });
 
   const handleChange = (e) => {
     const name = e.target.name;
-    const value = e.target.value;
+    const value = e.target.type === "file" ? e.target.files[0] : e.target.value;
     setDetails({ ...details, [name]: value });
   };
 
@@ -70,8 +71,8 @@ const Products = () => {
     formData.append("selling_price", Number(details.selling_price));
     formData.append("total_stock", Number(details.total_stock));
     formData.append("discount", Number(details.discount));
-    // formData.append("total_stock", details.total_stock);
     formData.append("store_id", details.store_id);
+    formData.append("picture", details.picture);
 
     try {
       const res = await axios.post("product/add-new-product", formData, {
@@ -99,7 +100,10 @@ const Products = () => {
         { store_id: id },
         { headers: { "auth-token": accessToken } }
       )
-      .then((res) => setData(res.data.data))
+      .then((res) => {
+        console.log(res);
+        setData(res.data.data);
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -128,7 +132,6 @@ const Products = () => {
       }
     } catch (error) {}
   };
-  
 
   return (
     <div>
@@ -168,7 +171,24 @@ const Products = () => {
                     <tr key={_id}>
                       <td className="py-4">{index + 1}</td>
                       <td className="py-4">{name}</td>
-                      <td className="py-4">{image}</td>
+                      <td className="py-4">
+                        {image === "image_url" ? (
+                          <p>N/A</p>
+                        ) : (
+                          <img
+                            src={image}
+                            alt=""
+                            style={{
+                              width: "5rem",
+                              height: "3rem",
+                              aspectRatio: "3 / 2",
+                              objectFit: "contain",
+                              mixBlendMode: "darken",
+                              pointerEvents: "none",
+                            }}
+                          />
+                        )}
+                      </td>
                       <td className="py-4">{selling_price}</td>
                       <td className="py-4">{total_stock}</td>
                       <td className="py-4">
@@ -257,15 +277,37 @@ const Products = () => {
                       onChange={handleChange}
                     />
                   </FormGroup>
-                  {/* <FormGroup>
+                  <FormGroup>
                     <Label>Product Image</Label>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      name="image"
-                      // onChange={handleChange}
-                    />
-                  </FormGroup> */}
+                    <div className="drug-photo" style={{ cursor: "pointer" }}>
+                      {details.picture ? (
+                        <img
+                          src={URL.createObjectURL(details.picture)}
+                          alt=""
+                          className="img-fluid w-100 h-100"
+                          style={{
+                            aspectRatio: "3 / 2",
+                            objectFit: "contain",
+                            mixBlendMode: "darken",
+                            pointerEvents: "none",
+                          }}
+                        />
+                      ) : (
+                        <p className="small file_name">
+                          Drag and drop or click here to select image
+                        </p>
+                      )}
+
+                      <input
+                        type="file"
+                        className="drug_file"
+                        accept="image/*"
+                        name="picture"
+                        onChange={handleChange}
+                       
+                      />
+                    </div>
+                  </FormGroup>
                   <div className="d-flex justify-content-between">
                     <div></div>
                     <Button color="success">Save</Button>{" "}

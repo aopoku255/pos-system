@@ -260,7 +260,28 @@ body{
   cursor: pointer;
 }
 
+.file_name{
+  width: 80%;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-align: center;
+  color: #a098ae;
+}
+
 .check{
   position: absolute;
 
+}
+.receipt-container{
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+.receipt{
+  width: 15rem;
+  min-height: 20rem;
+  background-color: #172B4D;
 }

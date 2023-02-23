@@ -191,7 +191,7 @@ const Invoice = () => {
                       product_name={name}
                       price={selling_price}
                       stock={total_stock}
-                      product_img={banana}
+                      product_img={image}
                       handleChange={(e) => handleCheck(e, _id)}
                     />
                   ))}

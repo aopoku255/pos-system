@@ -24,7 +24,7 @@ const Card = (props) => {
       <p className="text-thin">
         <ImArrowUp2 className="text-white" />
         <span className="text-white">{props.percentage}</span>
-        <span> Since last month</span>
+        <span className="small" style={{fontSize: "12px"}}>{props.since}</span>
       </p>
     </div>
   );
