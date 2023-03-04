@@ -84,6 +84,7 @@ const Products = () => {
           setIsOpen(false);
         }, 1500);
         toast.success("Product created successfully");
+        window.location.reload(true)
       }
     } catch (error) {
       toast.error("An error occured");
@@ -129,6 +130,7 @@ const Products = () => {
           setIsOpenDelete(false);
         }, 1500);
         toast.success("Product deleted successfully");
+        window.location.reload(true)
       }
     } catch (error) {}
   };

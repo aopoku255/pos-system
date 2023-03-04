@@ -80,6 +80,7 @@ const Dashboard = () => {
     <div>
       <div className="d-flex">
         {/* SIDEBAR */}
+
         <Sidebar />
 
         {/* MAIN PAGE */}

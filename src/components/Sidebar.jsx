@@ -14,7 +14,7 @@ import { useEffect, useRef } from "react";
 
 const Sidebar = () => {
   return (
-    <div className="sidebar">
+    <div className="sidebar d-none d-md-block">
       <div className="sidebar_header mt-5 mx-4 text-white">
         {/* <h1
           className="text-danger"

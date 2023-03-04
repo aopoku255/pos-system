@@ -47,6 +47,7 @@ const Report = () => {
     axios({
       url: "reports",
       method: "POST",
+      data: { shop_id: id },
       responseType: "blob", // Set the response type to "blob" to receive binary data
       headers: { "auth-token": accessToken },
     })
@@ -78,7 +79,6 @@ const Report = () => {
       .catch((err) => console.log(err));
   }, []);
 
-
   return (
     <div>
       <div className="d-flex">
@@ -108,19 +108,22 @@ const Report = () => {
                 </tr>
               </thead>
               <tbody className="text-center">
-                {
-                  data.map(({customer_name, invoice_number, grand_total, createdAt}, index) => <tr>
-                  <td className="py-4">{index + 1}</td>
-                  <td className="py-4">{invoice_number}</td>
-                  <td className="py-4">{customer_name || "N/A"}</td>
-                  <td className="py-4">{grand_total}</td>
-                  <td className="py-4">{`${new Date(
-                        createdAt
-                      ).getDate()}/${
+                {data.map(
+                  (
+                    { customer_name, invoice_number, grand_total, createdAt },
+                    index
+                  ) => (
+                    <tr>
+                      <td className="py-4">{index + 1}</td>
+                      <td className="py-4">{invoice_number}</td>
+                      <td className="py-4">{customer_name || "N/A"}</td>
+                      <td className="py-4">{grand_total}</td>
+                      <td className="py-4">{`${new Date(createdAt).getDate()}/${
                         new Date(createdAt).getMonth() + 1
                       }/${new Date(createdAt).getFullYear()}`}</td>
-                </tr>)
-                }
+                    </tr>
+                  )
+                )}
               </tbody>
             </Table>
           </div>
