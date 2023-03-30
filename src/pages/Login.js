@@ -45,7 +45,7 @@ const Login = () => {
     <div className="center">
       <Toaster />
       <h5 className="mt-4 mb-4 text-white">Welcome Back</h5>
-      <div className="card shadow-lg border-0 login">
+      <div className="card shadow-lg border-0 login pb-4">
         <p className="text-center text-secondary pt-5">
           Sign in with credentials
         </p>
@@ -109,7 +109,7 @@ const Login = () => {
             <button type="submit" className="submit_btn w-100 mt-4">
               Sign in
             </button>
-            <p className="mt-4  text-center small">
+            {/* <p className="mt-4  text-center small">
               Don't have an account?{" "}
               <Link
                 to="/register"
@@ -117,13 +117,13 @@ const Login = () => {
               >
                 sign up
               </Link>
-            </p>
+            </p> */}
           </div>
         </form>
       </div>
       <div className="d-flex justify-content-between align-items-center mt-3 login">
         <div className="">
-          <div className="form-check ">
+          {/* <div className="form-check ">
             <input
               className="form-check-input"
               type="checkbox"
@@ -136,14 +136,14 @@ const Login = () => {
             >
               Remember Me
             </label>
-          </div>
+          </div> */}
         </div>
 
-        <div className="">
+        {/* <div className="">
           <Link to="" className="text-nowrap text-decoration-none text-white">
             Forgot Password
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );
