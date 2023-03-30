@@ -7,7 +7,7 @@ import Sidebar from "../components/Sidebar";
 const InvoiceList = () => {
   const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
   const accessToken = userinfo.refreshToken;
-  const id = userinfo.id;
+  const id = userinfo.shop_id;
 
   const [data, setData] = useState([]);
 
@@ -89,7 +89,9 @@ const InvoiceList = () => {
                       <td className="text-center">{selling_price}</td>
                       <td className="text-center">{quantity}</td>
                       <td className="text-center">{discount}</td>
-                      <td className="text-center">{selling_price * quantity}</td>
+                      <td className="text-center">
+                        {selling_price * quantity}
+                      </td>
                     </tr>
                   )
                 )}

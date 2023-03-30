@@ -12,16 +12,13 @@ import {
 } from "recharts";
 import axios from "../api/axios";
 
-
-
 export default class Example extends PureComponent {
   // static demoUrl = "https://codesandbox.io/s/simple-line-chart-kec3v";
-
 
   constructor(props) {
     var userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
     var accessToken = userinfo.refreshToken;
-    let id = userinfo.id;
+    let id = userinfo.shop_id;
     super(props);
     this.state = {
       data: [],
@@ -42,7 +39,6 @@ export default class Example extends PureComponent {
   }
 
   render() {
-
     const data = [
       {
         name: "Jan",

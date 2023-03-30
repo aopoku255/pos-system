@@ -9,7 +9,7 @@ const InventoryRecords = () => {
 
   const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
   const accessToken = userinfo.refreshToken;
-  const id = userinfo.id;
+  const id = userinfo.shop_id;
   // FETCH PRODUCTS
   useEffect(() => {
     axios

@@ -18,7 +18,7 @@ export default class Barchart extends PureComponent {
   constructor(props) {
     var userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
     var accessToken = userinfo.refreshToken;
-    let id = userinfo.id;
+    let id = userinfo.shop_id;
     super(props);
     this.state = {
       data: [],
@@ -77,7 +77,6 @@ export default class Barchart extends PureComponent {
         if (item.name === name) {
           item.uv = sale;
         }
-       
       });
     });
 

@@ -19,14 +19,19 @@ import { MdDelete } from "react-icons/md";
 import { FcAddRow } from "react-icons/fc";
 import axios from "../api/axios";
 import { toast, Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import InvoiceCard from "../components/InvoiceCard";
 
 const Returns = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenReturn, setIsOpenReturn] = useState(false);
+  const [newData, setNewData] = useState([]);
   // Add Table
   const handleAddTable = () => {
     setIsOpen(true);
   };
 
+  const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [unmountOnClose, setUnmountOnClose] = useState(true);
 
@@ -38,7 +43,7 @@ const Returns = () => {
 
   const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
   const accessToken = userinfo.refreshToken;
-  const id = userinfo.id;
+  const id = userinfo.shop_id;
 
   // FETCH PRODUCTS
   const [data, setData] = useState([]);
@@ -62,27 +67,39 @@ const Returns = () => {
       { invoice_number: invoiceNum, shop_id: id },
       { headers: { "auth-token": accessToken } }
     );
-    console.log(res)
-    if(res.data.status === "failed"){
-      toast.error(res.data.message)
+    console.log(res);
+    if (res.data.status === "failed") {
+      toast.error(res.data.message);
       setTimeout(() => {
-        setIsOpen(false)
-      }, 1500)
-    }
-    else{
-      toast.success(res.data.message)
+        setIsOpen(false);
+      }, 1500);
+    } else {
+      toast.success(res.data.message);
       setTimeout(() => {
-        setIsOpen(false)
-      }, 1500)
+        setIsOpen(false);
+        // navigate("/returns/return-details");
+        // sessionStorage.setItem("returns", JSON.parse(res.data));
+        setIsOpenReturn(true);
+        setNewData(res.data.data);
+        window.location.reload(true);
+        // const {products_summary} = newData[0]
+      }, 1500);
     }
   };
+
+  // console.log(newData)
+
+  // const product = [];
+  // for (let item in products_summary) {
+  //   product.push(products_summary[item]);
+  // }
 
   return (
     <div>
       <div className="d-flex">
         <Sidebar />
         <main className="main">
-          <Toaster/>
+          <Toaster />
           <Header name="RETURNS" />
           <div className="table-responsive mt-3 mb-5 shadow mx-3 rounded">
             <div className="d-flex justify-content-between align-items-center py-3 px-3">
@@ -155,6 +172,56 @@ const Returns = () => {
                 </form>
               </ModalBody>
             </Modal>
+            <div>
+              <Modal isOpen={false} fullscreen>
+                <ModalHeader toggle={() => setIsOpenReturn(false)}>
+                  Returns
+                </ModalHeader>
+                <ModalBody>
+                  <Table borderless>
+                    <thead className="bg-light text-secondary text-center text-uppercase small">
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>quantity</th>
+                        <th>selling price</th>
+                        <th>Returning</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {/* {
+                        product.map(({name, image, quantity, selling_price}, index) => <tr key={index+1}>
+                        <td className="text-center">{index + 1}</td>
+                        <td className="text-center">{name}</td>
+                        <td className="text-center">
+                          <img src={Image} alt="" />
+                        </td>
+                        <td className="text-center">{quantity}</td>
+                        <td className="text-center">{selling_price}</td>
+                        <td className="text-center mx-auto d-block d-flex justify-content-center align-items-center">
+                          <input
+                            type="number"
+                            
+                            placeholder="Qunatity returned"
+                            className="form-control w-25"
+                          />
+                        </td>
+                      </tr>)
+                      } */}
+                    </tbody>
+                  </Table>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="primary" onClick={toggle}>
+                    Do Something
+                  </Button>{" "}
+                  <Button color="secondary" onClick={toggle}>
+                    Cancel
+                  </Button>
+                </ModalFooter>
+              </Modal>
+            </div>
           </div>
         </main>
       </div>

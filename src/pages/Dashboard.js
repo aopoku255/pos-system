@@ -16,7 +16,7 @@ import axios from "../api/axios";
 const Dashboard = () => {
   const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
   const accessToken = userinfo.refreshToken;
-  const id = userinfo.id;
+  const id = userinfo.shop_id;
 
   // SALES TODAY
   const [salesToday, setSalesToday] = useState({});
@@ -76,6 +76,8 @@ const Dashboard = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  console.log(salesToday);
+
   return (
     <div>
       <div className="d-flex">
@@ -93,39 +95,42 @@ const Dashboard = () => {
                 <Card
                   name="SALES TODAY"
                   amount={salesToday.sale}
-                  percentage={`${value}% `}
+                  // percentage={`${value}% `}
                   icon={<MdDataUsage size={20} />}
                   bgclass="card_icon"
                   bgcolor="bgcolor_1"
                   iconcolor="#825ee4"
-                  since="Since last yesterday"
+                  since="Total sales today"
                 />
                 <Card
                   name="SALES THIS MONTH"
                   amount={salesMonth.sale}
-                  percentage="3.48%"
+                  // percentage="3.48%"
                   icon={<BsPieChartFill size={20} />}
                   bgclass="card_icon2"
                   bgcolor="bgcolor_2"
                   iconcolor="#2dcecc"
+                  since="Total sales this month"
                 />
                 <Card
                   name="TOTAL REVENUE"
                   amount={totalRev}
-                  percentage="3.48%"
+                  // percentage="3.48%"
                   icon={<BsClipboardData size={20} />}
                   bgclass="card_icon3"
                   bgcolor="bgcolor_3"
                   iconcolor="#fbb140"
+                  since="Total revenue for the year"
                 />
                 <Card
                   name="TOTAL PRODUCT"
                   amount={data}
                   icon={<HiDatabase size={20} />}
-                  percentage="3.48%"
+                  // percentage="3.48%"
                   bgclass="card_icon4"
                   bgcolor="bgcolor_4"
                   iconcolor="#f56036"
+                  since="Total products uploaded"
                 />
               </div>
               <div className="d-flex justify-content-center align-items-center my-5">

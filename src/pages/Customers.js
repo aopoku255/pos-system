@@ -41,7 +41,7 @@ const Customers = () => {
 
   const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
   const accessToken = userinfo.refreshToken;
-  const id = userinfo.id;
+  const id = userinfo.shop_id;
 
   const [data, setData] = useState([]);
   toast.dismiss();
@@ -91,6 +91,7 @@ const Customers = () => {
           setIsOpen(false);
         }, 1500);
         toast.success("Customer created successfully");
+        window.location.reload(true);
       }
       if (res.data.message === "Customer with same email already exists") {
         toast.dismiss();
@@ -116,6 +117,7 @@ const Customers = () => {
         toast.dismiss(remove);
         setTimeout(() => {
           setIsOpenDelete(false);
+          window.location.reload(true);
         }, 1500);
         toast.success("Customer deleted successfully");
       }

@@ -17,10 +17,10 @@ import banana from "../assets/png/banana.png";
 import axios from "../api/axios";
 import { toast, Toaster } from "react-hot-toast";
 
-const Invoice = () => {
+const ReturnDetails = () => {
   const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
   const accessToken = userinfo.refreshToken;
-  const id = userinfo.shop_id;
+  const id = userinfo.id;
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState("");
   // const [totalStock, setTotalStock] = useState(1);
@@ -88,7 +88,6 @@ const Invoice = () => {
   const [invoiceDetails, setInvoiceDetails] = useState({
     amount_paid: "",
     customer_name: "",
-    phone: "",
     customer_balance: "",
     payment_type: "cash",
     grand_total: "",
@@ -121,54 +120,42 @@ const Invoice = () => {
       invoiceDetails.grand_total - invoiceDetails.amount_paid;
   };
 
-  const [require, setRequired] = useState(false);
-
   const handlePostInvoice = (e) => {
     e.preventDefault();
-    // console
-    if (invoiceDetails.grand_total == "" || invoiceDetails.grand_total < 1) {
-      toast.error("Please select an item and compute");
-    } else if (invoiceDetails.payment_type == "Credit") {
-      toast.error("Provide creditor name");
-    } else {
-      // console.log(invoiceDetails);
-      axios
-        .post(
-          "invoice/add-invoice",
-          {
-            shop_id: id,
-            customer_name: invoiceDetails.customer_name,
-            phone: invoiceDetails.phone,
-            grand_total: invoiceDetails.grand_total,
-            payment_type: invoiceDetails.payment_type,
-            amount_paid: invoiceDetails.amount_paid,
-            products_summary: tables.map(
-              ({ _id, name, image, quantity, discount, selling_price }) => {
-                return {
-                  product_id: _id,
-                  name: name,
-                  image: image,
-                  quantity: quantity,
-                  discount: discount,
-                  selling_price: selling_price,
-                };
-              }
-            ),
-          },
-          { headers: { "auth-token": accessToken } }
-        )
-        .then((res) => {
-          if (res.data.message === "success") {
-            toast.success(res.data.message);
-            setTables([]);
-            invoiceDetails.grand_total = "";
-            invoiceDetails.discount = "";
-            invoiceDetails.amount_paid = 0;
-            window.location.reload(true);
-          }
-        })
-        .catch((err) => console.log(err));
-    }
+    console.log(invoiceDetails);
+    axios
+      .post(
+        "invoice/add-invoice",
+        {
+          shop_id: id,
+          customer_name: invoiceDetails.customer_name,
+          grand_total: invoiceDetails.grand_total,
+          payment_type: invoiceDetails.payment_type,
+          amount_paid: invoiceDetails.amount_paid,
+          products_summary: tables.map(
+            ({ _id, name, image, quantity, discount, selling_price }) => {
+              return {
+                product_id: _id,
+                name: name,
+                image: image,
+                quantity: quantity,
+                discount: discount,
+                selling_price: selling_price,
+              };
+            }
+          ),
+        },
+        { headers: { "auth-token": accessToken } }
+      )
+      .then((res) => {
+        if (res.data.message === "success") {
+          toast.success(res.data.message);
+          setTables([]);
+          invoiceDetails.grand_total = "";
+          invoiceDetails.discount = "";
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -203,7 +190,6 @@ const Invoice = () => {
                   })
                   .map(({ name, selling_price, total_stock, image, _id }) => (
                     <InvoiceCard
-                      key={_id}
                       product_name={name}
                       price={selling_price}
                       stock={total_stock}
@@ -298,11 +284,7 @@ const Invoice = () => {
                           <td className="text-center">
                             <Input
                               type="text"
-                              value={
-                                quantity == ""
-                                  ? selling_price
-                                  : quantity * selling_price
-                              }
+                              value={quantity * selling_price}
                               disabled
                             />
                           </td>
@@ -384,7 +366,6 @@ const Invoice = () => {
                         name="payment_type"
                         value={invoiceDetails.payment_type}
                         onChange={handleInvoiceChange}
-                        required={invoiceDetails.payment_type == "Credit"}
                       >
                         <option value="cash">Cash</option>
                         <option value="bank">Bank</option>
@@ -402,30 +383,17 @@ const Invoice = () => {
                         onChange={handleInvoiceChange}
                       />
                     </InputGroup>
-                    <InputGroup className="mb-4">
-                      <InputGroupText style={{ width: "12rem" }}>
-                        Customer Phone
-                      </InputGroupText>
-                      <Input
-                        type="text"
-                        name="phone"
-                        value={invoiceDetails.phone}
-                        onChange={handleInvoiceChange}
-                      />
-                    </InputGroup>
                     <div className="d-flex mb-5">
                       <button
                         className="btn btn-primary px-4"
                         type="button"
                         onClick={handleTotal}
-                        // disabled={invoiceDetails.grand_total < 1}
                       >
                         Calculate
                       </button>
                       <button
                         className="btn btn-success px-5 mx-2"
                         onClick={handlePostInvoice}
-                        disabled={!invoiceDetails.grand_total}
                       >
                         Save
                       </button>
@@ -441,4 +409,4 @@ const Invoice = () => {
   );
 };
 
-export default Invoice;
+export default ReturnDetails;

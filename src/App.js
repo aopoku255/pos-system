@@ -17,8 +17,11 @@ import ProtectedRoute from "./ProtectedRoute";
 import InvoiceList from "./pages/InvoiceList";
 import SalesReceipt from "./pages/SalesReceipt";
 import InventoryRecords from "./pages/InventoryRecords";
+import ReturnDetails from "./pages/ReturnDetails";
+import ProductsReport from "./pages/ProductsReport";
 
 function App() {
+  
   return (
     <div>
       <Router>
@@ -36,12 +39,22 @@ function App() {
             <Route exact path="/sales" element={<Sales />} />
             <Route exact path="/customers" element={<Customers />} />
             <Route exact path="/returns" element={<Returns />} />
+            <Route
+              exact
+              path="/returns/return-details"
+              element={<ReturnDetails />}
+            />
             <Route exact path="/report" element={<Report />} />
+            <Route exact path="/products-report" element={<ProductsReport />} />
             <Route exact path="/inventory" element={<Inventory />} />
             <Route exact path="/sales-details" element={<InvoiceList />} />
             <Route exact path="/sales-receipt" element={<SalesReceipt />} />
-            <Route exact path="/inventory-records" element={<InventoryRecords />} />
-            <Route exact path="*" element={<Error />} />
+            <Route
+              exact
+              path="/inventory-records"
+              element={<InventoryRecords />}
+            />
+            <Route path="*" element={<Error />} />
           </Route>
         </Routes>
       </Router>

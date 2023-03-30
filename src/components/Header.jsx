@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Collapse, Modal, ModalBody } from "reactstrap";
-import profile from "../assets/jpg/profile.jpg";
+import profile from "../assets/png/staff.jpeg";
 
 import { FaUser } from "react-icons/fa";
 import { AiFillSetting } from "react-icons/ai";

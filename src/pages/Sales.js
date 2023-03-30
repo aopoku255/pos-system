@@ -33,7 +33,7 @@ const Sales = () => {
 
   const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
   const accessToken = userinfo.refreshToken;
-  const id = userinfo.id;
+  const id = userinfo.shop_id;
 
   const [modal, setModal] = useState(false);
   const [unmountOnClose, setUnmountOnClose] = useState(true);
@@ -60,7 +60,7 @@ const Sales = () => {
       })
       .catch((err) => console.log(err));
   }, []);
-  console.log(data);
+  // console.log(data);
   const [itemid, setItemId] = useState("");
 
   const handleDetails = (id) => {
@@ -70,6 +70,109 @@ const Sales = () => {
     sessionStorage.setItem("receiptIndex", id);
   };
 
+  const [phoneSearch, setPhoneSearch] = useState("");
+
+  const [products, setProducts] = useState([]);
+
+  // FETCH PRODUCTS
+  useEffect(() => {
+    axios
+      .post(
+        "product/fetch-product",
+        { store_id: id },
+        { headers: { "auth-token": accessToken } }
+      )
+      .then((res) => {
+        // console.log(res);
+        setProducts(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const [enteries, setEnteries] = useState(10);
+  const handleEntryChange = (e) => {
+    setEnteries(e.target.value);
+  };
+
+  const tableData = data
+    .filter(({ customer_name, phone, invoice_number }) =>
+      customer_name.toLowerCase() === "" ||
+      phone === "" ||
+      invoice_number === ""
+        ? customer_name.toLowerCase()
+        : customer_name.toLowerCase().includes(phoneSearch.toLowerCase()) ||
+          phone.includes(phoneSearch.toLowerCase()) ||
+          invoice_number.includes(phoneSearch)
+    )
+    .slice(0, enteries)
+    .map(
+      (
+        {
+          invoice_number,
+          customer_name,
+          image,
+          grand_total,
+          amount_paid,
+          payment_type,
+          createdAt,
+          phone,
+          _id,
+        },
+        index
+      ) => {
+        return (
+          <tr>
+            <td className="py-4">{index + 1}</td>
+            <td className="py-4">{invoice_number}</td>
+            <td className="py-4">
+              {customer_name === "" ? "N/A" : customer_name}
+            </td>
+            <td className="py-4">{phone || "N/A"}</td>
+            <td className="py-4">{payment_type}</td>
+            <td className="py-4">{grand_total}</td>
+            <td className="py-4">{amount_paid || 0}</td>
+            <td className="py-4">{grand_total - amount_paid}</td>
+            <td className="py-4">{`${new Date(createdAt).getDate()}/${
+              new Date(createdAt).getMonth() + 1
+            }/${new Date(createdAt).getFullYear()}`}</td>
+            <td className="py-4">
+              <div className="d-flex align-items-center">
+                <Link to="/sales-receipt" onClick={() => handleReceipt(index)}>
+                  <IoReceiptOutline className="edit" id="receipt" />
+                  <UncontrolledTooltip target="receipt">
+                    Receipt
+                  </UncontrolledTooltip>
+                </Link>
+                <Link to="/sales-details" onClick={() => handleDetails(index)}>
+                  <AiFillEye className="edit" id="eye" />
+                  <UncontrolledTooltip target="eye">
+                    Sales details
+                  </UncontrolledTooltip>
+                </Link>
+                {/* <MdDelete className="delete" id="delete" />
+          <UncontrolledTooltip target="delete">
+            Delete sales
+          </UncontrolledTooltip> */}
+              </div>
+            </td>
+          </tr>
+        );
+      }
+    );
+
+  let total = 0;
+
+  if (phoneSearch) {
+    const filtered = data.filter(({ customer_name, phone, invoice_number }) =>
+      customer_name.toLowerCase() === "" || phone.toString() === ""
+        ? customer_name.toLowerCase()
+        : customer_name.toLowerCase().includes(phoneSearch.toLowerCase()) ||
+          phone.includes(phoneSearch.toLowerCase()) ||
+          invoice_number.includes(phoneSearch)
+    );
+    filtered.map(({ grand_total }) => (total += grand_total));
+  }
+
   return (
     <div>
       <div className="d-flex">
@@ -77,8 +180,34 @@ const Sales = () => {
         <main className="main">
           <Header name="SALES" />
           <div className="table-responsive mt-3 mb-5 shadow mx-3 rounded">
-            <div className="d-flex justify-content-between align-items-center py-3 px-3">
-              <div></div>
+            <div className="d-flex mx-3 p-3">
+              <input
+                type="text"
+                className="form-control mx-3"
+                placeholder="filter by customer name"
+                onChange={(e) => setPhoneSearch(e.target.value)}
+              />
+              <input
+                type="text"
+                className="form-control mx-3"
+                placeholder="Customer sales total"
+                // disabled
+                value={phoneSearch ? total : "Customer sales total"}
+              />
+            </div>
+            <div className="d-flex justify-content-between align-items-center py-1 px-3">
+              <div>
+                Showing{" "}
+                <select name="" id="" onChange={handleEntryChange}>
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="500">500</option>
+                  <option value="1000">1000</option>
+                </select>{" "}
+                Enteries
+              </div>
             </div>
             <Table bgcolor="white" border>
               <thead className="bg-light text-secondary text-center text-uppercase small">
@@ -86,63 +215,16 @@ const Sales = () => {
                   <th>#</th>
                   <th>Invoice No.</th>
                   <th>Customer Name</th>
+                  <th>Phone</th>
                   <th>Payment Type</th>
                   <th>Total</th>
+                  <th>Amount paid</th>
+                  <th>Customer Balance</th>
                   <th>Date</th>
                   <th></th>
                 </tr>
               </thead>
-              <tbody className="text-center">
-                {data.map(
-                  (
-                    {
-                      invoice_number,
-                      customer_name,
-                      image,
-                      grand_total,
-                      payment_type,
-                      createdAt,
-                    },
-                    index
-                  ) => (
-                    <tr>
-                      <td className="py-4">{index + 1}</td>
-                      <td className="py-4">{invoice_number}</td>
-                      <td className="py-4">
-                        {customer_name === "" ? "N/A" : customer_name}
-                      </td>
-                      <td className="py-4">{payment_type}</td>
-                      <td className="py-4">{grand_total}</td>
-                      <td className="py-4">{`${new Date(createdAt).getDate()}/${
-                        new Date(createdAt).getMonth() + 1
-                      }/${new Date(createdAt).getFullYear()}`}</td>
-                      <td className="py-4">
-                        <div className="d-flex align-items-center">
-                          <Link to="/sales-receipt" onClick={() => handleReceipt(index)}>
-                            <IoReceiptOutline className="edit" id="receipt" />
-                            <UncontrolledTooltip target="receipt">
-                              Receipt
-                            </UncontrolledTooltip>
-                          </Link>
-                          <Link
-                            to="/sales-details"
-                            onClick={() => handleDetails(index)}
-                          >
-                            <AiFillEye className="edit" id="eye" />
-                            <UncontrolledTooltip target="eye">
-                              Sales details
-                            </UncontrolledTooltip>
-                          </Link>
-                          {/* <MdDelete className="delete" id="delete" />
-                          <UncontrolledTooltip target="delete">
-                            Delete sales
-                          </UncontrolledTooltip> */}
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
+              <tbody className="text-center">{tableData}</tbody>
             </Table>
           </div>
         </main>

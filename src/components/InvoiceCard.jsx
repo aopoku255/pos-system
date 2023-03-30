@@ -4,7 +4,7 @@ const InvoiceCard = (props) => {
   const handleClick = () => {};
 
   return (
-    <div
+    <div key={props.key}
       onSelect={props.handleSelect}
       className="card border-0 rounded invoice-card shadow"
       onClick={props.handleClick}

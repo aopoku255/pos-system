@@ -28,7 +28,7 @@ const Inventory = () => {
 
   const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
   const accessToken = userinfo.refreshToken;
-  const id = userinfo.id;
+  const id = userinfo.shop_id;
 
   const [modal, setModal] = useState(false);
   const [unmountOnClose, setUnmountOnClose] = useState(true);
@@ -88,12 +88,18 @@ const Inventory = () => {
           setIsOpen(false);
         }, 1500);
         toast.success("Product updated successfully");
+        window.location.reload(true);
       }
     } catch (error) {}
   };
 
   const handleInventory = (id) => {
     sessionStorage.setItem("prodid", id);
+  };
+
+  const [enteries, setEnteries] = useState(10);
+  const handleEntryChange = (e) => {
+    setEnteries(e.target.value);
   };
 
   return (
@@ -105,7 +111,20 @@ const Inventory = () => {
           <Header name="INVENTORY" />
           <div>
             <div className="d-flex justify-content-between align-items-center py-3 px-3">
-              <div></div>
+              <div>
+              <div>
+                Showing{" "}
+                <select name="" id="" onChange={handleEntryChange}>
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="500">500</option>
+                  <option value="1000">1000</option>
+                </select>{" "}
+                Enteries
+              </div>
+              </div>
               {/* <button
                 className="btn btn-primary border-0  shadow text-uppercase"
                 onClick={handleAddTable}
@@ -126,7 +145,7 @@ const Inventory = () => {
                 </tr>
               </thead>
               <tbody className="text-center">
-                {data.map(
+                {data.slice(0, enteries).map(
                   (
                     { name, image, selling_price, total_stock, createdAt, _id },
                     index
