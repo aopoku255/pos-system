@@ -95,12 +95,15 @@ const Inventory = () => {
 
   const handleInventory = (id) => {
     sessionStorage.setItem("prodid", id);
+    
   };
 
   const [enteries, setEnteries] = useState(10);
   const handleEntryChange = (e) => {
     setEnteries(e.target.value);
   };
+
+  const [search, setSearch] = useState("");
 
   return (
     <div>
@@ -125,6 +128,12 @@ const Inventory = () => {
                 Enteries
               </div>
               </div>
+              <input
+                type="text"
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Filter by product name"
+                className="form-control w-50"
+              />
               {/* <button
                 className="btn btn-primary border-0  shadow text-uppercase"
                 onClick={handleAddTable}
@@ -145,7 +154,11 @@ const Inventory = () => {
                 </tr>
               </thead>
               <tbody className="text-center">
-                {data.slice(0, enteries).map(
+                {data.filter(({ name }) =>
+                    name.toLowerCase() === ""
+                      ? name.toLowerCase()
+                      : name.toLowerCase().includes(search.toLowerCase())
+                  ).slice(0, enteries).map(
                   (
                     { name, image, selling_price, total_stock, createdAt, _id },
                     index
@@ -190,7 +203,7 @@ const Inventory = () => {
                           </UncontrolledTooltip>
                           <Link
                             to="/inventory-records"
-                            onClick={() => handleInventory(_id)}
+                            onClick={() => handleInventory(_id, {name, image, selling_price, total_stock, createdAt, _id})}
                           >
                             <AiFillEye className="edit" id="eye" />
                             <UncontrolledTooltip target="eye">

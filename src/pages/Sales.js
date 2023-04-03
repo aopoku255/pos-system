@@ -121,7 +121,7 @@ const Sales = () => {
         index
       ) => {
         return (
-          <tr>
+          <tr key={_id}>
             <td className="py-4">{index + 1}</td>
             <td className="py-4">{invoice_number}</td>
             <td className="py-4">

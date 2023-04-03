@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Col, Form, FormGroup, Input, Label, Table } from "reactstrap";
+import {
+  Col,
+  Form,
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupText,
+  Label,
+  Table,
+} from "reactstrap";
 import axios from "../api/axios";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import { Toaster, toast } from "react-hot-toast";
 
 const InvoiceList = () => {
   const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
@@ -26,17 +36,70 @@ const InvoiceList = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  const { invoice_number, customer_name, payment_type, products_summary } =
-    data;
+  const {
+    invoice_number,
+    customer_name,
+    payment_type,
+    products_summary,
+    grand_total,
+  } = data;
 
   const product = [];
   for (let item in products_summary) {
     product.push(products_summary[item]);
   }
 
+  const [invoiceDetails, setInvoiceDetails] = useState({
+    amount_paid: "",
+    customer_name: "",
+    phone: "",
+    customer_balance: "",
+    payment_type: "cash",
+    grand_total: "",
+    amount_paid: 0,
+    discount: 0,
+    shop_id: id,
+  });
+
+  const handleInvoiceChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setInvoiceDetails({ ...invoiceDetails, [name]: value });
+  };
+
+  // CALCULATE SUM
+  let sum = 0;
+  const handleTotal = (e) => {
+    e.preventDefault();
+    // setIsFocused(false);
+
+    setInvoiceDetails({ ...invoiceDetails, grand_total: sum });
+    invoiceDetails.customer_balance =
+      invoiceDetails.grand_total - invoiceDetails.amount_paid;
+  };
+
+  const handlePostInvoice = (e) => {
+    e.preventDefault();
+    const myPromise = axios.post(
+      "invoice/update-invoice",
+      {
+        invoice_number: invoice_number,
+        payment_type: invoiceDetails.payment_type,
+        amount_paid: invoiceDetails.amount_paid,
+      },
+      { headers: { "auth-token": accessToken } }
+    );
+    toast.promise(myPromise, {
+      loading: "Loading...",
+      success: "Invoice updated successfully",
+      error: "An error occured",
+    });
+  };
+
   return (
     <div>
       <div className="d-flex">
+        <Toaster />
         <Sidebar />
         <main className="main">
           <Header name="SALES DETAILS" />
@@ -97,6 +160,114 @@ const InvoiceList = () => {
                 )}
               </tbody>
             </Table>
+          </div>
+
+          {/*  */}
+
+          <div className="container">
+            {payment_type === "credit" && (
+              <div className="d-flex justify-content-between align-items-center">
+                <div></div>
+                <div>
+                  <form>
+                    <InputGroup className="mb-4">
+                      <InputGroupText className="" style={{ width: "12rem" }}>
+                        Total discount
+                      </InputGroupText>
+                      <Input
+                        type="text"
+                        name="discount"
+                        value={invoiceDetails.discount}
+                        disabled
+                      />
+                    </InputGroup>
+                    <InputGroup className="mb-4">
+                      <InputGroupText style={{ width: "12rem" }}>
+                        Grand Total
+                      </InputGroupText>
+                      <Input
+                        type="text"
+                        name="grand_total"
+                        value={grand_total}
+                        disabled
+                      />
+                    </InputGroup>
+                    <InputGroup className="mb-4">
+                      <InputGroupText style={{ width: "12rem" }}>
+                        Amount paid
+                      </InputGroupText>
+                      <Input
+                        type="text"
+                        name="amount_paid"
+                        value={invoiceDetails.amount_paid}
+                        onChange={handleInvoiceChange}
+                      />
+                    </InputGroup>
+                    <InputGroup className="mb-4">
+                      <InputGroupText style={{ width: "12rem" }}>
+                        Customer balance
+                      </InputGroupText>
+                      <Input
+                        type="text"
+                        name="customer_balance"
+                        value={
+                          (invoiceDetails.customer_balance =
+                            grand_total - invoiceDetails.amount_paid)
+                        }
+                        onChange={handleInvoiceChange}
+                      />
+                    </InputGroup>
+                    <InputGroup className="mb-4">
+                      <InputGroupText style={{ width: "12rem" }}>
+                        Payment method
+                      </InputGroupText>
+                      <Input
+                        type="select"
+                        name="payment_type"
+                        value={invoiceDetails.payment_type}
+                        onChange={handleInvoiceChange}
+                        required={invoiceDetails.payment_type == "Credit"}
+                      >
+                        <option value="cash">Cash</option>
+                        <option value="bank">Bank</option>
+                        <option value="credit">Credit</option>
+                      </Input>
+                    </InputGroup>
+                    <InputGroup className="mb-4">
+                      <InputGroupText style={{ width: "12rem" }}>
+                        Customer name
+                      </InputGroupText>
+                      <Input
+                        type="text"
+                        name="customer_name"
+                        value={invoiceDetails.customer_name}
+                        onChange={handleInvoiceChange}
+                      />
+                    </InputGroup>
+                    <InputGroup className="mb-4">
+                      <InputGroupText style={{ width: "12rem" }}>
+                        Customer Phone
+                      </InputGroupText>
+                      <Input
+                        type="text"
+                        name="phone"
+                        value={invoiceDetails.phone}
+                        onChange={handleInvoiceChange}
+                      />
+                    </InputGroup>
+                    <div className="d-flex mb-5">
+                      <button
+                        className="btn btn-success px-5 mx-2"
+                        onClick={handlePostInvoice}
+                        // disabled={!invoiceDetails.grand_total}
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </div>

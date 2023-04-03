@@ -148,11 +148,11 @@ const Products = () => {
   };
 
   const [editInd, setEditInd] = useState();
-  const handleIsEditOpen = (id) => {
+  const handleIsEditOpen = (id, item) => {
     setIsEditOpen(true);
     setEditDetails({
       ...editDetails,
-      ...data[id],
+      ...item,
     });
   };
 
@@ -199,6 +199,8 @@ const Products = () => {
     setEnteries(e.target.value);
   };
 
+  const [search, setSearch] = useState("");
+
   return (
     <div>
       <div className="d-flex">
@@ -220,6 +222,12 @@ const Products = () => {
                 </select>{" "}
                 Enteries
               </div>
+              <input
+                type="text"
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Filter by product name"
+                className="form-control w-50"
+              />
               <button
                 className="btn btn-primary border-0  shadow text-uppercase"
                 onClick={handleAddTable}
@@ -240,62 +248,85 @@ const Products = () => {
                 </tr>
               </thead>
               <tbody className="text-center">
-                {data.slice(0, enteries).map(
-                  (
-                    { name, image, selling_price, total_stock, createdAt, _id },
-                    index
-                  ) => (
-                    <tr key={_id}>
-                      <td className="py-4">{index + 1}</td>
-                      <td className="py-4">{name}</td>
-                      <td className="py-4">
-                        {image === "image_url" ? (
-                          <p>N/A</p>
-                        ) : (
-                          <img
-                            src={image}
-                            alt=""
-                            style={{
-                              width: "5rem",
-                              height: "3rem",
-                              aspectRatio: "3 / 2",
-                              objectFit: "contain",
-                              mixBlendMode: "darken",
-                              pointerEvents: "none",
-                            }}
-                          />
-                        )}
-                      </td>
-                      <td className="py-4">{selling_price}</td>
-                      <td className="py-4">{total_stock}</td>
-                      <td className="py-4">
-                        {`${new Date(createdAt).getDate()}/${
-                          new Date(createdAt).getMonth() + 1
-                        }/${new Date(createdAt).getFullYear()}`}
-                      </td>
-                      <td className="py-4">
-                        <div className="d-flex">
-                          <FiEdit
-                            className="edit"
-                            id="edit"
-                            onClick={() => handleIsEditOpen(index)}
-                          />
-                          <UncontrolledTooltip target="edit">
-                            Edit product
-                          </UncontrolledTooltip>
-                          <MdDelete
-                            className="delete"
-                            id="delete"
-                            onClick={() => handleOpenDelete(_id)}
-                          />
-                          <UncontrolledTooltip target="delete">
-                            Delete product
-                          </UncontrolledTooltip>
-                        </div>
-                      </td>
-                    </tr>
+                {data
+                  .filter(({ name }) =>
+                    name.toLowerCase() === ""
+                      ? name.toLowerCase()
+                      : name.toLowerCase().includes(search.toLowerCase())
                   )
-                )}
+                  .slice(0, enteries)
+                  .map(
+                    (
+                      {
+                        name,
+                        image,
+                        selling_price,
+                        total_stock,
+                        createdAt,
+                        _id,
+                      },
+                      index
+                    ) => (
+                      <tr key={_id}>
+                        <td className="py-4">{index + 1}</td>
+                        <td className="py-4">{name}</td>
+                        <td className="py-4">
+                          {image === "image_url" ? (
+                            <p>N/A</p>
+                          ) : (
+                            <img
+                              src={image}
+                              alt=""
+                              style={{
+                                width: "5rem",
+                                height: "3rem",
+                                aspectRatio: "3 / 2",
+                                objectFit: "contain",
+                                mixBlendMode: "darken",
+                                pointerEvents: "none",
+                              }}
+                            />
+                          )}
+                        </td>
+                        <td className="py-4">{selling_price}</td>
+                        <td className="py-4">{total_stock}</td>
+                        <td className="py-4">
+                          {`${new Date(createdAt).getDate()}/${
+                            new Date(createdAt).getMonth() + 1
+                          }/${new Date(createdAt).getFullYear()}`}
+                        </td>
+                        <td className="py-4">
+                          <div className="d-flex">
+                            <FiEdit
+                              className="edit"
+                              id="edit"
+                              onClick={() =>
+                                handleIsEditOpen(index, {
+                                  name,
+                                  image,
+                                  selling_price,
+                                  total_stock,
+                                  createdAt,
+                                  _id,
+                                })
+                              }
+                            />
+                            <UncontrolledTooltip target="edit">
+                              Edit product
+                            </UncontrolledTooltip>
+                            <MdDelete
+                              className="delete"
+                              id="delete"
+                              onClick={() => handleOpenDelete(_id)}
+                            />
+                            <UncontrolledTooltip target="delete">
+                              Delete product
+                            </UncontrolledTooltip>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  )}
               </tbody>
             </Table>
             <Modal isOpen={isOpen}>
