@@ -32,12 +32,12 @@ const Invoice = () => {
     const value = e.target.value;
     setSelectedTable((prevSelectedTable) =>
       prevSelectedTable.map((item) => {
-        // console.log(item._id, itemId);
         if (item._id == itemId) {
+          const total = item.quantity * item.selling_price - value;
           return {
             ...item,
             [name]: value,
-            total: item.quantity * item.selling_price - item.discount,
+            total: total < 0 ? 0 : total, // Ensure total is not negative
           };
         }
         return item;
@@ -65,7 +65,11 @@ const Invoice = () => {
     if (selectedTable.length !== 0) {
       selectedTable.forEach((table) => {
         if (!tables.find((t) => t.name === table.name)) {
-          tables.push({ ...table, quantity: table.total_stock || 1 });
+          tables.push({
+            ...table,
+            quantity: table.total_stock || 1,
+            discount: table.discount,
+          });
         }
       });
 
@@ -89,12 +93,14 @@ const Invoice = () => {
     amount_paid: "",
     customer_name: "",
     phone: "",
+    total: "",
     customer_balance: "",
     payment_type: "cash",
     grand_total: "",
     amount_paid: 0,
-    discount: 0,
+    discount: "",
     shop_id: id,
+    grand_discount: "",
     product_summary: [],
   });
 
@@ -110,13 +116,19 @@ const Invoice = () => {
 
   // CALCULATE SUM
   let sum = 0;
+  let total_discount = 0;
   const handleTotal = (e) => {
     e.preventDefault();
     // setIsFocused(false);
-    tables.forEach(
-      ({ quantity, selling_price }) => (sum += quantity * selling_price)
-    );
-    setInvoiceDetails({ ...invoiceDetails, grand_total: sum });
+    tables.forEach(({ quantity, selling_price, discount }) => {
+      sum += quantity * selling_price;
+      total_discount += Number(discount);
+    });
+    setInvoiceDetails({
+      ...invoiceDetails,
+      grand_total: sum,
+      grand_discount: total_discount,
+    });
     invoiceDetails.customer_balance =
       invoiceDetails.grand_total - invoiceDetails.amount_paid;
   };
@@ -140,6 +152,7 @@ const Invoice = () => {
             customer_name: invoiceDetails.customer_name,
             phone: invoiceDetails.phone,
             grand_total: invoiceDetails.grand_total,
+            grand_discount: invoiceDetails.grand_discount,
             payment_type: invoiceDetails.payment_type,
             amount_paid: invoiceDetails.amount_paid,
             products_summary: tables.map(
@@ -258,10 +271,18 @@ const Invoice = () => {
                           <td className="text-center">
                             <Input
                               type="text"
-                              value={total_stock * selling_price}
+                              value={total_stock * selling_price - discount}
                             />
                           </td>
-                          <td>{discount}</td>
+                          <td>
+                            <input
+                              type="text"
+                              name="discount"
+                              className="form-control"
+                              value={discount}
+                              onChange={(e) => handleChange(e, _id)}
+                            />
+                          </td>
                           <td></td>
                         </tr>
                       )
@@ -275,6 +296,7 @@ const Invoice = () => {
                           total_stock,
                           _id,
                           quantity,
+                          
                         },
                         index
                       ) => (
@@ -300,8 +322,8 @@ const Invoice = () => {
                               type="text"
                               value={
                                 quantity == ""
-                                  ? selling_price
-                                  : quantity * selling_price
+                                  ? selling_price - discount
+                                  : quantity * selling_price - discount
                               }
                               disabled
                             />
@@ -334,7 +356,18 @@ const Invoice = () => {
                       <Input
                         type="text"
                         name="discount"
-                        value={invoiceDetails.discount}
+                        value={Number(invoiceDetails.grand_discount)}
+                        disabled
+                      />
+                    </InputGroup>
+                    <InputGroup className="mb-4">
+                      <InputGroupText style={{ width: "12rem" }}>
+                        Total
+                      </InputGroupText>
+                      <Input
+                        type="text"
+                        name="total"
+                        value={invoiceDetails.grand_total}
                         disabled
                       />
                     </InputGroup>
@@ -345,7 +378,10 @@ const Invoice = () => {
                       <Input
                         type="text"
                         name="grand_total"
-                        value={invoiceDetails.grand_total}
+                        value={
+                          invoiceDetails.grand_total -
+                          invoiceDetails.grand_discount
+                        }
                         disabled
                       />
                     </InputGroup>
@@ -362,7 +398,9 @@ const Invoice = () => {
                     </InputGroup>
                     <InputGroup className="mb-4">
                       <InputGroupText style={{ width: "12rem" }}>
-                        Customer balance
+                        {invoiceDetails.customer_balance <= 0
+                          ? "Customer balance"
+                          : "Customer Owes"}
                       </InputGroupText>
                       <Input
                         type="text"
@@ -370,6 +408,7 @@ const Invoice = () => {
                         value={
                           (invoiceDetails.customer_balance =
                             invoiceDetails.grand_total -
+                            invoiceDetails.grand_discount -
                             invoiceDetails.amount_paid)
                         }
                         onChange={handleInvoiceChange}

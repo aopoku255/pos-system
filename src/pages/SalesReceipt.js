@@ -39,6 +39,7 @@ const SalesReceipt = () => {
     grand_total,
     amount_paid,
     products_summary,
+    grand_discount,
     customer_name,
   } = data;
 
@@ -116,7 +117,7 @@ const SalesReceipt = () => {
                             <td className="">{name}</td>
                             <td className="">{quantity}</td>
                             <td className="">{selling_price}</td>
-                            <td className="">{selling_price * quantity}</td>
+                            <td className="">{selling_price * quantity - discount}</td>
                             <td className="">{discount}</td>
                           </tr>
                         )
@@ -142,10 +143,18 @@ const SalesReceipt = () => {
                     </div>
                     <div className="row">
                       <div className="col text-start text-nowrap">
-                        <b className="small">Balance:</b>
+                        <b className="small">Discount:</b>
                       </div>
                       <div className="col text-end">
-                        ₵{grand_total - amount_paid}
+                        ₵{grand_discount}
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col text-start text-nowrap">
+                        <b className="small">{amount_paid < grand_total - grand_discount ? "Customer Owes: " : "Balance: "}</b>
+                      </div>
+                      <div className="col text-end">
+                        ₵{grand_total - amount_paid - grand_discount}
                       </div>
                     </div>
                     {/* <div className="row">
