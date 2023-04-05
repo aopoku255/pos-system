@@ -19,6 +19,19 @@ const InvoiceList = () => {
   const accessToken = userinfo.refreshToken;
   const id = userinfo.shop_id;
 
+  const [invoiceDetails, setInvoiceDetails] = useState({
+    amount_paid: "",
+    customer_name: "",
+    phone: "",
+    customer_balance: "",
+    payment_type: "cash",
+    grand_total: "",
+    grand_discount: "",
+    amount_paid: 0,
+    discount: 0,
+    shop_id: id,
+  });
+
   const [data, setData] = useState([]);
 
   // FETCH PRODUCTS
@@ -32,6 +45,11 @@ const InvoiceList = () => {
       .then((res) => {
         console.log(res.data);
         setData(res.data.data[sessionStorage.getItem("detialsIndex")]);
+        setInvoiceDetails({
+          ...invoiceDetails,
+          amount_paid:
+            res.data.data[sessionStorage.getItem("detialsIndex")].amount_paid,
+        });
       })
       .catch((err) => console.log(err));
   }, []);
@@ -44,25 +62,13 @@ const InvoiceList = () => {
     amount_paid,
     grand_discount,
     grand_total,
+    customer_balance,
   } = data;
 
   const product = [];
   for (let item in products_summary) {
     product.push(products_summary[item]);
   }
-
-  const [invoiceDetails, setInvoiceDetails] = useState({
-    amount_paid: "",
-    customer_name: "",
-    phone: "",
-    customer_balance: "",
-    payment_type: "cash",
-    grand_total: "",
-    grand_discount: "",
-    amount_paid: 0,
-    discount: 0,
-    shop_id: id,
-  });
 
   const handleInvoiceChange = (e) => {
     const name = e.target.name;
