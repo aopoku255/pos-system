@@ -96,12 +96,10 @@ const Sales = () => {
 
   const tableData = data
     .filter(({ customer_name, phone, invoice_number }) =>
-      customer_name.toLowerCase() === "" ||
-      phone === "" ||
-      invoice_number === ""
-        ? customer_name.toLowerCase()
+      customer_name.toLowerCase() === ""
+        ? customer_name
         : customer_name.toLowerCase().includes(phoneSearch.toLowerCase()) ||
-          phone.includes(phoneSearch.toLowerCase()) ||
+          phone.includes(phoneSearch) ||
           invoice_number.includes(phoneSearch)
     )
     .slice(0, enteries)
@@ -116,6 +114,7 @@ const Sales = () => {
           payment_type,
           createdAt,
           phone,
+          grand_discount,
           _id,
         },
         index
@@ -131,7 +130,16 @@ const Sales = () => {
             <td className="py-4">{payment_type}</td>
             <td className="py-4">{grand_total}</td>
             <td className="py-4">{amount_paid || 0}</td>
-            <td className="py-4">{grand_total - amount_paid}</td>
+            <td className="py-4">{grand_discount || 0}</td>
+            <td
+              className={
+                amount_paid < grand_total - grand_discount
+                  ? "py-4 bg-danger text-white"
+                  : "py-4 bg-success"
+              }
+            >
+              {grand_total - amount_paid - grand_discount || 0}
+            </td>
             <td className="py-4">{`${new Date(createdAt).getDate()}/${
               new Date(createdAt).getMonth() + 1
             }/${new Date(createdAt).getFullYear()}`}</td>
@@ -164,10 +172,10 @@ const Sales = () => {
 
   if (phoneSearch) {
     const filtered = data.filter(({ customer_name, phone, invoice_number }) =>
-      customer_name.toLowerCase() === "" || phone.toString() === ""
-        ? customer_name.toLowerCase()
+      customer_name.toLowerCase() === ""
+        ? customer_name
         : customer_name.toLowerCase().includes(phoneSearch.toLowerCase()) ||
-          phone.includes(phoneSearch.toLowerCase()) ||
+          phone.includes(phoneSearch) ||
           invoice_number.includes(phoneSearch)
     );
     filtered.map(({ grand_total }) => (total += grand_total));
@@ -212,15 +220,16 @@ const Sales = () => {
             <Table bgcolor="white" border>
               <thead className="bg-light text-secondary text-center text-uppercase small">
                 <tr>
-                  <th>#</th>
-                  <th>Invoice No.</th>
-                  <th>Customer Name</th>
-                  <th>Phone</th>
-                  <th>Payment Type</th>
-                  <th>Total</th>
-                  <th>Amount paid</th>
-                  <th>Customer Balance</th>
-                  <th>Date</th>
+                  <th className="text-nowrap">#</th>
+                  <th className="text-nowrap">Invoice No.</th>
+                  <th className="text-nowrap">Customer Name</th>
+                  <th className="text-nowrap">Phone</th>
+                  <th className="text-nowrap">Payment Type</th>
+                  <th className="text-nowrap">Total</th>
+                  <th className="text-nowrap">Amount paid</th>
+                  <th className="text-nowrap">Total Discount</th>
+                  <th className="text-nowrap">Balance</th>
+                  <th className="text-nowrap">Date</th>
                   <th></th>
                 </tr>
               </thead>

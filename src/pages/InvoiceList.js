@@ -19,6 +19,19 @@ const InvoiceList = () => {
   const accessToken = userinfo.refreshToken;
   const id = userinfo.shop_id;
 
+  const [invoiceDetails, setInvoiceDetails] = useState({
+    amount_paid: "",
+    customer_name: "",
+    phone: "",
+    customer_balance: "",
+    payment_type: "cash",
+    grand_total: "",
+    grand_discount: "",
+    amount_paid: 0,
+    discount: 0,
+    shop_id: id,
+  });
+
   const [data, setData] = useState([]);
 
   // FETCH PRODUCTS
@@ -32,6 +45,11 @@ const InvoiceList = () => {
       .then((res) => {
         console.log(res.data);
         setData(res.data.data[sessionStorage.getItem("detialsIndex")]);
+        setInvoiceDetails({
+          ...invoiceDetails,
+          amount_paid:
+            res.data.data[sessionStorage.getItem("detialsIndex")].amount_paid,
+        });
       })
       .catch((err) => console.log(err));
   }, []);
@@ -41,25 +59,16 @@ const InvoiceList = () => {
     customer_name,
     payment_type,
     products_summary,
+    amount_paid,
+    grand_discount,
     grand_total,
+    customer_balance,
   } = data;
 
   const product = [];
   for (let item in products_summary) {
     product.push(products_summary[item]);
   }
-
-  const [invoiceDetails, setInvoiceDetails] = useState({
-    amount_paid: "",
-    customer_name: "",
-    phone: "",
-    customer_balance: "",
-    payment_type: "cash",
-    grand_total: "",
-    amount_paid: 0,
-    discount: 0,
-    shop_id: id,
-  });
 
   const handleInvoiceChange = (e) => {
     const name = e.target.name;
@@ -153,7 +162,7 @@ const InvoiceList = () => {
                       <td className="text-center">{quantity}</td>
                       <td className="text-center">{discount}</td>
                       <td className="text-center">
-                        {selling_price * quantity}
+                        {selling_price * quantity - discount}
                       </td>
                     </tr>
                   )
@@ -165,7 +174,7 @@ const InvoiceList = () => {
           {/*  */}
 
           <div className="container">
-            {payment_type === "credit" && (
+            {amount_paid < grand_total - grand_discount && (
               <div className="d-flex justify-content-between align-items-center">
                 <div></div>
                 <div>
@@ -177,7 +186,18 @@ const InvoiceList = () => {
                       <Input
                         type="text"
                         name="discount"
-                        value={invoiceDetails.discount}
+                        value={Number(grand_discount)}
+                        disabled
+                      />
+                    </InputGroup>
+                    <InputGroup className="mb-4">
+                      <InputGroupText style={{ width: "12rem" }}>
+                        Total
+                      </InputGroupText>
+                      <Input
+                        type="text"
+                        name="total"
+                        value={grand_total}
                         disabled
                       />
                     </InputGroup>
@@ -188,7 +208,7 @@ const InvoiceList = () => {
                       <Input
                         type="text"
                         name="grand_total"
-                        value={grand_total}
+                        value={grand_total - grand_discount}
                         disabled
                       />
                     </InputGroup>
@@ -205,14 +225,18 @@ const InvoiceList = () => {
                     </InputGroup>
                     <InputGroup className="mb-4">
                       <InputGroupText style={{ width: "12rem" }}>
-                        Customer balance
+                        {invoiceDetails.customer_balance <= 0
+                          ? "Customer balance"
+                          : "Customer Owes"}
                       </InputGroupText>
                       <Input
                         type="text"
                         name="customer_balance"
                         value={
                           (invoiceDetails.customer_balance =
-                            grand_total - invoiceDetails.amount_paid)
+                            grand_total -
+                            grand_discount -
+                            invoiceDetails.amount_paid)
                         }
                         onChange={handleInvoiceChange}
                       />
@@ -259,7 +283,6 @@ const InvoiceList = () => {
                       <button
                         className="btn btn-success px-5 mx-2"
                         onClick={handlePostInvoice}
-                        // disabled={!invoiceDetails.grand_total}
                       >
                         Save
                       </button>
