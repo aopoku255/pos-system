@@ -21,6 +21,7 @@ import { MdDelete } from "react-icons/md";
 import { FcAddRow } from "react-icons/fc";
 import axios from "../api/axios";
 import { toast, Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const Customers = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +55,10 @@ const Customers = () => {
         { shop_id: id },
         { headers: { "auth-token": accessToken } }
       )
-      .then((res) => setData(res.data.data))
+      .then((res) => {
+        console.log(res);
+        setData(res.data.data);
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -84,7 +88,7 @@ const Customers = () => {
         { ...details },
         { headers: { "auth-token": accessToken } }
       );
-      console.log(res);
+
       if (res.data.message === "success") {
         toast.dismiss(remove);
         setTimeout(() => {
@@ -107,7 +111,7 @@ const Customers = () => {
 
   const handleDelete = async () => {
     const remove = toast.loading("Loading...");
-    console.log(accessToken);
+    // console.log(accessToken);
     try {
       const res = await axios.delete("customer/delete-customers", {
         data: { _id: itemid, store_id: id },
@@ -124,6 +128,12 @@ const Customers = () => {
     } catch (error) {}
   };
 
+  const [search, setSearch] = useState("");
+
+  const handleName = (e) => {
+    sessionStorage.setItem("customer_info", JSON.stringify(e))
+  }
+
   return (
     <div>
       <div className="d-flex">
@@ -133,7 +143,12 @@ const Customers = () => {
           <Header name="CUSTOMERS" />
           <div className="table-responsive mt-3 mb-5 shadow mx-3 rounded">
             <div className="d-flex justify-content-between align-items-center py-3 px-3">
-              <div></div>
+              <input
+                type="text"
+                className="form-control w-50"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+
               <button
                 className="btn btn-primary border-0  shadow text-uppercase"
                 onClick={handleAddTable}
@@ -154,39 +169,59 @@ const Customers = () => {
                 </tr>
               </thead>
               <tbody className="">
-                {data.map(({ name, email, phone, address, createdAt, _id }) => (
-                  <tr>
-                    <td></td>
-                    <td className="py-4">
-                      <h6 className="mx-2 staff_name">{name}</h6>
-                    </td>
+                {data
 
-                    <td className="py-4 text-secondary">{email}</td>
-                    <td className="py-4 text-secondary">{phone}</td>
-                    <td className="py-4 text-secondary">{address}</td>
-                    <td className="py-4 text-secondary">{`${new Date(
-                      createdAt
-                    ).getDate()}/${
-                      new Date(createdAt).getMonth() + 1
-                    }/${new Date(createdAt).getFullYear()}`}</td>
-                    <td className="py-4">
-                      <div className="d-flex">
-                        <FiEdit className="edit" id="edit" />
-                        <UncontrolledTooltip target="edit">
-                          Edit customer
+                  .filter(({ name, phone, email }) =>
+                    name.toLowerCase() === ""
+                      ? name
+                      : name.toLowerCase().includes(search.toLowerCase()) ||
+                        phone.includes(search) ||
+                        email.includes(search)
+                  )
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .map(({ name, email, phone, address, createdAt, _id }) => (
+                    <tr key={_id}>
+                      <td></td>
+                      <td className="py-4">
+                        <Link
+                          to="/invoice"
+                          className="mx-2 staff_name text-decoration-none"
+                          id="name"
+                          onClick={e => handleName({name, phone})}
+                        >
+                          {name}
+                        </Link>
+                        <UncontrolledTooltip target="name">
+                          Generate invoice
                         </UncontrolledTooltip>
-                        <MdDelete
-                          className="delete"
-                          id="delete"
-                          onClick={() => handleOpenDelete(_id)}
-                        />
-                        <UncontrolledTooltip target="delete">
-                          Delete customer
-                        </UncontrolledTooltip>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+
+                      <td className="py-4 text-secondary">{email}</td>
+                      <td className="py-4 text-secondary">{phone}</td>
+                      <td className="py-4 text-secondary">{address}</td>
+                      <td className="py-4 text-secondary">{`${new Date(
+                        createdAt
+                      ).getDate()}/${
+                        new Date(createdAt).getMonth() + 1
+                      }/${new Date(createdAt).getFullYear()}`}</td>
+                      <td className="py-4">
+                        <div className="d-flex">
+                          <FiEdit className="edit" id="edit" />
+                          <UncontrolledTooltip target="edit">
+                            Edit customer
+                          </UncontrolledTooltip>
+                          <MdDelete
+                            className="delete"
+                            id="delete"
+                            onClick={() => handleOpenDelete(_id)}
+                          />
+                          <UncontrolledTooltip target="delete">
+                            Delete customer
+                          </UncontrolledTooltip>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </Table>
             <Modal isOpen={isOpen}>

@@ -96,12 +96,10 @@ const Sales = () => {
 
   const tableData = data
     .filter(({ customer_name, phone, invoice_number }) =>
-      customer_name.toLowerCase() === "" ||
-      phone === "" ||
-      invoice_number === ""
-        ? customer_name.toLowerCase()
+      customer_name.toLowerCase() === ""
+        ? customer_name
         : customer_name.toLowerCase().includes(phoneSearch.toLowerCase()) ||
-          phone.includes(phoneSearch.toLowerCase()) ||
+          phone.includes(phoneSearch) ||
           invoice_number.includes(phoneSearch)
     )
     .slice(0, enteries)
@@ -133,7 +131,15 @@ const Sales = () => {
             <td className="py-4">{grand_total}</td>
             <td className="py-4">{amount_paid || 0}</td>
             <td className="py-4">{grand_discount || 0}</td>
-            <td className={amount_paid < grand_total - grand_discount ? "py-4 bg-danger text-white" : "py-4 bg-success"}>{grand_total - amount_paid - grand_discount || 0}</td>
+            <td
+              className={
+                amount_paid < grand_total - grand_discount
+                  ? "py-4 bg-danger text-white"
+                  : "py-4 bg-success"
+              }
+            >
+              {grand_total - amount_paid - grand_discount || 0}
+            </td>
             <td className="py-4">{`${new Date(createdAt).getDate()}/${
               new Date(createdAt).getMonth() + 1
             }/${new Date(createdAt).getFullYear()}`}</td>
@@ -166,10 +172,10 @@ const Sales = () => {
 
   if (phoneSearch) {
     const filtered = data.filter(({ customer_name, phone, invoice_number }) =>
-      customer_name.toLowerCase() === "" || phone.toString() === ""
-        ? customer_name.toLowerCase()
+      customer_name.toLowerCase() === ""
+        ? customer_name
         : customer_name.toLowerCase().includes(phoneSearch.toLowerCase()) ||
-          phone.includes(phoneSearch.toLowerCase()) ||
+          phone.includes(phoneSearch) ||
           invoice_number.includes(phoneSearch)
     );
     filtered.map(({ grand_total }) => (total += grand_total));

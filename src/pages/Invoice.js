@@ -26,6 +26,8 @@ const Invoice = () => {
   // const [totalStock, setTotalStock] = useState(1);
   const [selectedTable, setSelectedTable] = useState([]);
 
+ 
+
   // HANDLECHANGE
   const handleChange = (e, itemId) => {
     const name = e.target.name;
@@ -107,6 +109,13 @@ const Invoice = () => {
   const handleRemove = (id) => {
     setTables(tables.filter(({ _id }) => _id !== id));
   };
+
+
+  useEffect(() => {
+    const customer_info = sessionStorage.getItem("customer_info")
+    const customer = JSON.parse(customer_info)
+    setInvoiceDetails({...invoiceDetails, customer_name: customer.name, phone: customer.phone})
+  }, [])
 
   const handleInvoiceChange = (e) => {
     const name = e.target.name;
