@@ -75,6 +75,7 @@ body{
   height: 100vh;
 }
 
+
 .list_active:hover{
   background-color: #f6f9fc;
   color: #000;
@@ -285,4 +286,18 @@ body{
   min-width: 15rem;
   min-height: 20rem;
   background-color: #172B4D;
+}
+
+.invoice_receipt{
+  width: 100%;
+}
+
+.invoice_logo > h1{
+  font-weight: 900;
+}
+
+.invoice_logo_card{
+  width: 5rem;
+  height: 5rem;
+  
 }

@@ -4,6 +4,7 @@ import { Table } from "reactstrap";
 import axios from "../api/axios";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import logo from "../assets/jpg/logo.jpg";
 
 const SalesReceipt = () => {
   const userinfo = JSON.parse(sessionStorage.getItem("userInfo"));
@@ -41,6 +42,8 @@ const SalesReceipt = () => {
     products_summary,
     grand_discount,
     customer_name,
+    phone,
+    payment_type,
   } = data;
 
   const year = new Date(createdAt).getFullYear();
@@ -63,143 +66,152 @@ const SalesReceipt = () => {
         <Sidebar />
         <main className="main">
           <Header name="SALES RECEIPT" />
-          <div className="receipt-container" ref={componentRef}>
-            <div className="card border-0 shadow-sm receipt">
-              <div className="mx-1 ">
-                <div className="line">
-                  <p className="mt-4 text-center">{shop_name}</p>
-                </div>
-
-                <hr className="mb-1" />
+          <div ref={componentRef}>
+            <div className="receipt-container mx-auto">
+              <div className="d-flex justify-content-between invoice_receipt px-3">
                 <div className="">
-                  <p className="small my-0">{/* <b>{shop_name}</b> */}</p>
-                  <p className="my-1 small text-center">
-                    <span className="">
-                      Date: {year}-{month}-{day}
-                    </span>
-                  </p>
-                  <p className="text-start  mb-1">
-                    <span className="">Invoice No: {invoice_number}</span>
-                  </p>
-                  <p className="text-start small mb-1">
-                    <span className="small">
-                      Customer Name: {customer_name || "N/A"}
-                    </span>
-                  </p>
-                  <p className="text-start small mb-1">
-                    <span className="small">
-                      Sales By: {staffname || "N/A"}
-                    </span>
-                  </p>
-                  {/* <p className="text-start small">Sales By: {staffname}</p> */}
+                  <h3 className="mb-1">{shop_name}</h3>
+                  <p className="mb-1">P.O BOX KS 6497 kumasi, Adum</p>
+                  <p className="mb-1">kmoh43@gmail.com</p>
+                  <p>0545098438</p>
                 </div>
-                <div className="table-responsive">
-                  <Table bordered className="my-3">
-                    <thead>
-                      <tr style={{ fontSize: "12px" }}>
-                        <th>SL</th>
-                        <th>It</th>
-                        <th>Qty</th>
-                        <th>Pri</th>
-                        <th>Amt</th>
-                        <th>Dis</th>
+                <div className="invoice_logo">
+                  <h1 className="">INVOICE</h1>
+                  <div className="invoice_logo_card">
+                    <img
+                      src={logo}
+                      alt=""
+                      className="img-fluid mx-auto d-block"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between align-items-center invoice_receipt px-3 my-4">
+              <div className="bill_to">
+                <h6 className="text-decoration-underline">BILL TO</h6>
+                <p className="mb-1">{customer_name}</p>
+                <p>{phone}</p>
+              </div>
+              <div className="bill_to">
+                <h6 className="text-decoration-underline">ISSUES BY</h6>
+                <p className="mb-1">{staffname}</p>
+                <p>
+                  <b>Position: </b>
+                  {usertype.toString().toUpperCase()}
+                </p>
+              </div>
+              <div className="invoice details">
+                <h6 className="text-decoration-underline"></h6>
+                <p className="mb-0">
+                  <b>Invoice No.: </b>
+                  {invoice_number}
+                </p>
+                <p className="mb-0">
+                  <b>Invoice Date: </b>
+                  {new Date(createdAt).toLocaleDateString("en-US", {
+                    dateStyle: "medium",
+                  })}{" "}
+                  {new Date(createdAt).toLocaleTimeString("en-US", {})}
+                </p>
+              </div>
+            </div>
+            <div className="px-3">
+              <Table bordered className="my-3">
+                <thead>
+                  <tr style={{ fontSize: "12px" }}>
+                    <th>SL</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>Discount</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {product.map(
+                    ({ name, quantity, discount, selling_price }, index) => (
+                      <tr style={{ fontSize: "11px" }}>
+                        <td className="">{index + 1}</td>
+                        <td className="">{name}</td>
+                        <td className="">{quantity}</td>
+                        <td className="">{selling_price}</td>
+                        <td className="">
+                          {selling_price * quantity - discount}
+                        </td>
+                        <td className="">{discount}</td>
                       </tr>
-                    </thead>
+                    )
+                  )}
+                </tbody>
+              </Table>
+            </div>
 
-                    <tbody>
-                      {product.map(
-                        (
-                          { name, quantity, discount, selling_price },
-                          index
-                        ) => (
-                          <tr style={{ fontSize: "11px" }}>
-                            <td className="">{index + 1}</td>
-                            <td className="">{name}</td>
-                            <td className="">{quantity}</td>
-                            <td className="">{selling_price}</td>
-                            <td className="">{selling_price * quantity - discount}</td>
-                            <td className="">{discount}</td>
-                          </tr>
-                        )
-                      )}
-                    </tbody>
-                  </Table>
+            <div className="d-flex justify-content-between align-items-center invoice_receipt px-3">
+              <div>
+                <p>Thank you for your business</p>
+              </div>
+              <div>
+                <div className="row">
+                  <div className="col text-start text-nowrap">
+                    <b className="small">Grand Total:</b>
+                  </div>
+                  <div className="col text-end">₵{grand_total}</div>
                 </div>
-
-                <div className="d-flex small justify-content-between">
-                  {/* <div></div> */}
-                  <div>
-                    <div className="row">
-                      <div className="col text-start text-nowrap">
-                        <b className="small">Grand Total:</b>
-                      </div>
-                      <div className="col text-end">₵{grand_total}</div>
-                    </div>
-                    <div className="row">
-                      <div className="col text-start text-nowrap">
-                        <b className="small">Amount Paid:</b>
-                      </div>
-                      <div className="col text-end">₵{amount_paid}</div>
-                    </div>
-                    <div className="row">
-                      <div className="col text-start text-nowrap">
-                        <b className="small">Discount:</b>
-                      </div>
-                      <div className="col text-end">
-                        ₵{grand_discount}
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col text-start text-nowrap">
-                        <b className="small">{amount_paid < grand_total - grand_discount ? "Customer Owes: " : "Balance: "}</b>
-                      </div>
-                      <div className="col text-end">
-                        ₵{grand_total - amount_paid - grand_discount}
-                      </div>
-                    </div>
-                    {/* <div className="row">
+                <div className="row">
+                  <div className="col text-start text-nowrap">
+                    <b className="small">Amount Paid:</b>
+                  </div>
+                  <div className="col text-end">₵{amount_paid}</div>
+                </div>
+                <div className="row">
+                  <div className="col text-start text-nowrap">
+                    <b className="small">Discount:</b>
+                  </div>
+                  <div className="col text-end">₵{grand_discount}</div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col text-start text-nowrap">
+                    <b className="small">
+                      {amount_paid < grand_total - grand_discount
+                        ? "Customer Owes: "
+                        : "Balance: "}
+                    </b>
+                  </div>
+                  <div className="col text-end">
+                    ₵{grand_total - amount_paid - grand_discount}
+                  </div>
+                </div>
+                {/* <div className="row">
                       <div className="col text-start text-nowrap">
                         Paid Amount:
                       </div>
                       <div className="col text-end">₵0.00</div>
                     </div> */}
-                  </div>
-                </div>
-                <hr className="mb-0" />
-                {/* <Barcode value={barcode} height={30} marginTop={0} /> */}
-                <div className="pb-4 mt-3 d-flex justify-content-center align-items-center">
-                  <span
-                    className="small deliverer-name"
-                    style={{ fontSize: "10px" }}
-                  >
-                    Powered By:
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      fontWeight: "bold",
-                      color: "green",
-                    }}
-                  >
-                    TekDevisal
-                  </span>
-                </div>
-                <div
-                  className="small pb-2 text-center"
-                  style={{ fontSize: "5px" }}
-                >
-                  Contact as on or visit our website{" "}
-                  <a href="http://www.tekdevisal.com" target="_blank">
-                    http://www.tekdevisal.com/
-                  </a>
-                </div>
               </div>
+            </div>
+
+            <div className="px-3 my-4">
+              <h6>
+                <b>Terms & Instructions</b>
+              </h6>
+              <hr className="w-25" />
+              <p className="mx-3">Payment via {payment_type}</p>
+              <textarea
+                type="text"
+                name=""
+                id=""
+                className="form-control border-0 "
+                placeholder="Note: "
+              />
             </div>
           </div>
           <ReactToPrint
             trigger={() => (
               <button
-                className="btn btn-secondary btn-sm px-4 mt-3 mx-auto d-block"
+                className="btn btn-secondary btn-sm px-4 mt-3 mx-auto d-block mb-5"
                 // onClick={handlePrint}
               >
                 Print
