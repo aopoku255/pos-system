@@ -26,8 +26,6 @@ const Invoice = () => {
   // const [totalStock, setTotalStock] = useState(1);
   const [selectedTable, setSelectedTable] = useState([]);
 
- 
-
   // HANDLECHANGE
   const handleChange = (e, itemId) => {
     const name = e.target.name;
@@ -87,7 +85,10 @@ const Invoice = () => {
         { store_id: id },
         { headers: { "auth-token": accessToken } }
       )
-      .then((res) => setData(res.data.data))
+      .then((res) => {
+        console.log(res);
+        setData(res.data.data);
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -110,12 +111,15 @@ const Invoice = () => {
     setTables(tables.filter(({ _id }) => _id !== id));
   };
 
-
   useEffect(() => {
-    const customer_info = sessionStorage.getItem("customer_info")
-    const customer = JSON.parse(customer_info)
-    setInvoiceDetails({...invoiceDetails, customer_name: customer.name, phone: customer.phone})
-  }, [])
+    const customer_info = sessionStorage.getItem("customer_info");
+    const customer = JSON.parse(customer_info);
+    setInvoiceDetails({
+      ...invoiceDetails,
+      customer_name: customer?.name,
+      phone: customer?.phone,
+    });
+  }, []);
 
   const handleInvoiceChange = (e) => {
     const name = e.target.name;
@@ -218,7 +222,7 @@ const Invoice = () => {
               </Row>
               <div className="invoice_grid mt-5">
                 {data
-                  .filter(({ name }) => {
+                  ?.filter(({ name }) => {
                     return name.toLowerCase() === ""
                       ? name.toLowerCase()
                       : name.toLowerCase().includes(searchText.toLowerCase());
@@ -254,7 +258,7 @@ const Invoice = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedTable.map(
+                    {selectedTable?.map(
                       (
                         { name, selling_price, discount, total_stock, _id },
                         index
@@ -265,15 +269,19 @@ const Invoice = () => {
                             <Input type="text" value={name} />
                           </td>
                           <td className="text-center">
-                            <Input type="text" value={selling_price} />
+                            <Input
+                              type="text"
+                              name="selling_price"
+                              value={selling_price}
+                              onChange={(e) => handleChange(e, _id)}
+                            />
                           </td>
                           <td className="text-center">
                             <Input
                               type="number"
                               name="total_stock"
                               min={1}
-                              // max={total_stock}
-
+                              value={total_stock}
                               onChange={(e) => handleChange(e, _id)}
                             />
                           </td>
@@ -305,7 +313,6 @@ const Invoice = () => {
                           total_stock,
                           _id,
                           quantity,
-                          
                         },
                         index
                       ) => (
