@@ -98,9 +98,9 @@ const Sales = () => {
     .filter(({ customer_name, phone, invoice_number }) =>
       customer_name.toLowerCase() === ""
         ? customer_name
-        : customer_name.toLowerCase().includes(phoneSearch.toLowerCase()) ||
-          phone.includes(phoneSearch) ||
-          invoice_number.includes(phoneSearch)
+        : customer_name.toLowerCase()?.includes(phoneSearch.toLowerCase()) ||
+          phone?.includes(phoneSearch) ||
+          invoice_number?.includes(phoneSearch)
     )
     .slice(0, enteries)
     .map(
@@ -128,8 +128,8 @@ const Sales = () => {
             </td>
             <td className="py-4">{phone || "N/A"}</td>
             <td className="py-4">{payment_type}</td>
-            <td className="py-4">{grand_total}</td>
-            <td className="py-4">{amount_paid || 0}</td>
+            <td className="py-4">{grand_total.toFixed(2)}</td>
+            <td className="py-4">{amount_paid.toFixed(2) || 0}</td>
             <td className="py-4">{grand_discount || 0}</td>
             <td
               className={
@@ -174,9 +174,9 @@ const Sales = () => {
     const filtered = data.filter(({ customer_name, phone, invoice_number }) =>
       customer_name.toLowerCase() === ""
         ? customer_name
-        : customer_name.toLowerCase().includes(phoneSearch.toLowerCase()) ||
-          phone.includes(phoneSearch) ||
-          invoice_number.includes(phoneSearch)
+        : customer_name.toLowerCase()?.includes(phoneSearch.toLowerCase()) ||
+          phone?.includes(phoneSearch) ||
+          invoice_number?.includes(phoneSearch)
     );
     filtered.map(({ grand_total }) => (total += grand_total));
   }

@@ -94,7 +94,7 @@ const Dashboard = () => {
               <div className="cards_grid mt-3">
                 <Card
                   name="SALES TODAY"
-                  amount={salesToday.sale}
+                  amount={salesToday?.sale?.toFixed(2)}
                   // percentage={`${value}% `}
                   icon={<MdDataUsage size={20} />}
                   bgclass="card_icon"
@@ -104,7 +104,7 @@ const Dashboard = () => {
                 />
                 <Card
                   name="SALES THIS MONTH"
-                  amount={salesMonth.sale}
+                  amount={salesMonth?.sale?.toFixed(2)}
                   // percentage="3.48%"
                   icon={<BsPieChartFill size={20} />}
                   bgclass="card_icon2"
@@ -114,7 +114,7 @@ const Dashboard = () => {
                 />
                 <Card
                   name="TOTAL REVENUE"
-                  amount={totalRev}
+                  amount={totalRev?.toFixed(2)}
                   // percentage="3.48%"
                   icon={<BsClipboardData size={20} />}
                   bgclass="card_icon3"
@@ -124,7 +124,7 @@ const Dashboard = () => {
                 />
                 <Card
                   name="TOTAL PRODUCT"
-                  amount={data}
+                  amount={data?.toFixed(2)}
                   icon={<HiDatabase size={20} />}
                   // percentage="3.48%"
                   bgclass="card_icon4"
@@ -167,7 +167,7 @@ const Dashboard = () => {
                         className="text-white mx-4"
                         style={{ fontSize: "12px", fontWeight: "bold" }}
                       >
-                        GH₵{salesMonth.sale}
+                        GH₵{salesMonth?.sale?.toFixed(2)}
                       </h3>
                     </div>
                   </div>
